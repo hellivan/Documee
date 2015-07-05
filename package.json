@@ -1,0 +1,16 @@
+{
+  "name": "apistest",
+  "version": "1.0.0",
+  "description": "Test for accessing APIs of social medias",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ivan Hell",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.0",
+    "oauth": "^0.9.13",
+    "twitter": "^1.2.5"
+  }
+}
