@@ -9,7 +9,11 @@
   "author": "Ivan Hell",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.13.1",
     "express": "^4.13.0",
+    "fbgraph": "^1.0.0",
+    "method-override": "^2.3.3",
+    "morgan": "^1.6.1",
     "oauth": "^0.9.13",
     "twitter": "^1.2.5"
   }
