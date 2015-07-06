@@ -1,5 +1,9 @@
-var app = angular.module('documee_demo', ['ui.bootstrap']);
+var app = angular.module('documee_demo', ['ui.bootstrap', 'ui.router']);
 
+
+app.config(function($stateProvider){
+
+});
 
 
 
@@ -8,6 +12,84 @@ app.controller("mainController", function ($http, $scope, $rootScope) {
 
     OAuth.initialize("U7oog1cN5o_ZsjeoQ_rPOxbFaKA");
 
+    $scope.fbstate = {
+        states : [
+            {
+                name: 'get_permissions',
+                description: 'Fetch all app-permissions',
+                method: 'get_fb_permissions',
+                template : 'partials/facebook/permissions-list.html'
+            },
+            {
+                name: 'delete_permissions',
+                description: 'Delete all Facebook app-permissions',
+                method: 'delete_fb_permissions'
+            },
+            {
+                name: 'get_friends',
+                description: 'Fetch tagable friends from Facebook',
+                method: 'get_fb_friends',
+                template : 'partials/facebook/friends-list.html'
+            },
+            {
+                name: 'get_me',
+                description: 'Fetch profile-infos from Facebook',
+                method: 'get_fb_me',
+                template : 'partials/facebook/user-profile.html'
+            },
+            {
+                name: 'get_feeds',
+                description: 'Fetch latest feeds on Facebook',
+                method: 'get_fb_feeds',
+                template : 'partials/facebook/feeds-list.html'
+            },
+
+        ],
+        current : undefined
+    };
+
+    $scope.twitterstate = {
+        states : [
+            {
+                name: 'get_friends',
+                description: 'Fetch friends on twitter',
+                method: 'get_twitter_friends',
+                template : 'partials/twitter/friends-list.html'
+            },
+            {
+                name: 'delete_following',
+                description: 'Fetch people following on twitter',
+                method: 'get_twitter_following',
+                template : 'partials/twitter/friends-list.html'
+            },
+            {
+                name: 'get_followers',
+                description: 'Fetch followers on twitter',
+                method: 'get_twitter_followers',
+                template : 'partials/twitter/friends-list.html'
+            },
+            {
+                name: 'get_trends',
+                description: 'Fetch top 10 trends on twitter',
+                method: 'get_twitter_trends',
+                template : 'partials/twitter/trends-list.html'
+            }
+
+        ],
+        current : undefined
+    };
+
+    $scope.switchFbState = function(state){
+        $scope.fb_result = undefined;
+        $scope.fbstate.current = state.name;
+        $scope[state.method]();
+    };
+
+    $scope.switchTwitterState = function(state){
+        $scope.twitter_result = undefined;
+        $scope.twitterstate.current = state.name;
+        $scope[state.method]();
+    };
 
     $scope.auth = {};
 
@@ -90,6 +172,7 @@ app.controller("mainController", function ($http, $scope, $rootScope) {
         $http.get("http://localhost:8000/fb/me").
             success(function(data, status, headers, config) {
                 console.log(data);
+                $scope.data_fb = data;
             }).
             error(function(data, status, headers, config) {
                 console.log("Error: " );
@@ -102,6 +185,7 @@ app.controller("mainController", function ($http, $scope, $rootScope) {
         $http.get("http://localhost:8000/fb/friends").
             success(function(data, status, headers, config) {
                 console.log(data);
+                $scope.data_fb = data;
             }).
             error(function(data, status, headers, config) {
                 console.log("Error: " + data);
@@ -113,6 +197,7 @@ app.controller("mainController", function ($http, $scope, $rootScope) {
         $http.get("http://localhost:8000/fb/feeds").
             success(function(data, status, headers, config) {
                 console.log(data);
+                $scope.data_fb = data;
             }).
             error(function(data, status, headers, config) {
                 console.log("Error: " + data);
@@ -124,6 +209,7 @@ app.controller("mainController", function ($http, $scope, $rootScope) {
         $http.get("http://localhost:8000/fb/permissions").
             success(function(data, status, headers, config) {
                 console.log(data);
+                $scope.data_fb = data;
             }).
             error(function(data, status, headers, config) {
                 console.log("Error: " + data);
@@ -135,6 +221,7 @@ app.controller("mainController", function ($http, $scope, $rootScope) {
         $http.delete("http://localhost:8000/fb/permissions").
             success(function(data, status, headers, config) {
                 console.log(data);
+                $scope.fb_result = data;
             }).
             error(function(data, status, headers, config) {
                 console.log("Error: " + data);
@@ -146,6 +233,7 @@ app.controller("mainController", function ($http, $scope, $rootScope) {
         $http.get("http://localhost:8000/twitter/followers").
             success(function(data, status, headers, config) {
                 console.log(data);
+                $scope.data_twitter = data;
             }).
             error(function(data, status, headers, config) {
                 console.log("Error: " + data);
@@ -157,6 +245,7 @@ app.controller("mainController", function ($http, $scope, $rootScope) {
         $http.get("http://localhost:8000/twitter/following").
             success(function(data, status, headers, config) {
                 console.log(data);
+                $scope.data_twitter = data;
             }).
             error(function(data, status, headers, config) {
                 console.log("Error: " + data);
@@ -168,6 +257,7 @@ app.controller("mainController", function ($http, $scope, $rootScope) {
         $http.get("http://localhost:8000/twitter/friends").
             success(function(data, status, headers, config) {
                 console.log(data);
+                $scope.data_twitter = data;
             }).
             error(function(data, status, headers, config) {
                 console.log("Error: " + data);
@@ -179,6 +269,7 @@ app.controller("mainController", function ($http, $scope, $rootScope) {
         $http.get("http://localhost:8000/twitter/trends").
             success(function(data, status, headers, config) {
                 console.log(data);
+                $scope.data_twitter = data;
             }).
             error(function(data, status, headers, config) {
                 console.log("Error: " + data);

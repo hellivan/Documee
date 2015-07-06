@@ -1,0 +1,17 @@
+<div class="jumbotron text-center">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8">
+                <div class="jumbotron text-center">
+                    <h2>Top <span class="box label label-info">{{ data_twitter.trends.length }}</span> trends for <span class="box label label-info">{{ data_twitter.locations.join(", ")}}</span></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="trend in data_twitter.trends">
+            <h4> <a ng-href="{{trend.url}}">{{trend.name}}</a></h4>
+        </li>
+    </ul>
+</div>

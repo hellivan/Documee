@@ -10,6 +10,7 @@
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
     <script src="bower_components/oauth-js/dist/oauth.min.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 
 
 
@@ -23,16 +24,14 @@
             <div class="panel-heading">Facebook</div>
             <div class="panel-body">
                 <div ng-hide="!auth.fb.authenticated">
-                    <ul >
-                        <li><a href="" ng-click="get_fb_me()">Fetch profile-infos from Facebook</a></li>
-                        <li><a href="" ng-click="get_fb_friends()">Fetch tagable friends from Facebook</a></li>
-                        <li><a href="" ng-click="get_fb_feeds()">Fetch latest feeds on Facebook</a></li>
-                        <li><a href="" ng-click="get_fb_permissions()">Fetch all app-permissions</a></li>
-                        <li><a href="" ng-click="delete_fb_permissions()">Delete all Facebook app-permissions</a></li>
+                    <ul>
+                        <li ng-repeat="state in fbstate.states">
+                            <a href="" ng-click="switchFbState(state)">{{state.description}}</a>
+                        </li>
                     </ul>
-                    <ui-view>
-
-                    </ui-view>
+                    <div ng-repeat="state in fbstate.states">
+                        <div ng-if="fbstate.current==state.name" ng-include="state.template"></div>
+                    </div>
                 </div>
 
                 <div ng-hide="auth.fb.authenticated">
@@ -48,11 +47,13 @@
             <div class="panel-body">
                 <div ng-hide="!auth.twitter.authenticated">
                     <ul>
-                        <li><a href="" ng-click="get_twitter_followers()">Fetch followers on twitter</a></li>
-                        <li><a href="" ng-click="get_twitter_following()">Fetch people followed on twitter</a></li>
-                        <li><a href="" ng-click="get_twitter_friends()">Fetch friends on twitter</a></li>
-                        <li><a href="" ng-click="get_twitter_trends()">Fetch top 10 trends on twitter</a></li>
+                        <li ng-repeat="state in twitterstate.states">
+                            <a href="" ng-click="switchTwitterState(state)">{{state.description}}</a>
+                        </li>
                     </ul>
+                    <div ng-repeat="state in twitterstate.states">
+                        <div ng-if="twitterstate.current==state.name" ng-include="state.template"></div>
+                    </div>
                 </div>
 
                 <div ng-hide="auth.twitter.authenticated">

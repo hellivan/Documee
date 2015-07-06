@@ -1,0 +1,21 @@
+<div class="jumbotron text-center">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8">
+                <div class="jumbotron text-center">
+                    <h2>Found <span class="box label label-info">{{ data_fb.length }}</span> permissions</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="permission in data_fb">
+
+            <h4>
+                <span ng-if="permission.status=='granted'" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                <span ng-if="permission.status=='declined'" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                {{permission.permission}}</h4>
+        </li>
+    </ul>
+</div>

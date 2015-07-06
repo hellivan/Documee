@@ -110,15 +110,22 @@ function getTwitterTrends(client, callback){
 
 		var responseData = data[0];
 
-		console.log("Trends for: " );
+		var res = {
+			locations : [],
+			trends : []
+		};
+
 		for (var index in responseData.locations){
-			var location = responseData.locations[index];
-			console.log(location.name);
+			res.locations.push(responseData.locations[index].name);
 		}
-		var trends = [];
+		for (var index in responseData.trends){
+			res.trends.push({
+				name : responseData.trends[index].name,
+				url : responseData.trends[index].url
+			});
+		}
 
-
-		callback(data[0].trends);
+		callback(res);
 	});
 };
 
@@ -138,25 +145,30 @@ function mergePersonsLists(persons1, persons2){
 };
 
 
+function twitterPersonsToFriends(persons){
+	var friends = [];
+	for(var index in persons){
+		friends.push({
+			name : persons[index].name,
+			picture : persons[index].image,
+			description : persons[index].description
+		});
+	}
+	return friends;
+}
+
+
 app.get("/twitter/following", function(req, res){
 	var client = getTwitterClient(req.headers.twitter_oauth_token, req.headers.twitter_oauth_token_secret);
 	getTwitterFollowing(client, function(persons){
-		var response = {
-			count   : persons.length,
-			persons : persons
-		}
-		res.send(response);
+		res.send(twitterPersonsToFriends(persons));
 	});
 });
 
 app.get("/twitter/followers", function(req, res){
 	var client = getTwitterClient(req.headers.twitter_oauth_token, req.headers.twitter_oauth_token_secret);
 	getTwitterFollowers(client, function(persons){
-		var response = {
-			count   : persons.length,
-			persons : persons
-		}
-		res.send(response);
+		res.send(twitterPersonsToFriends(persons));
 	});
 });
 
@@ -164,14 +176,8 @@ app.get("/twitter/friends", function(req, res){
 	var client = getTwitterClient(req.headers.twitter_oauth_token, req.headers.twitter_oauth_token_secret);
 	getTwitterFollowers(client, function(followers){
 		getTwitterFollowing(client, function(following){
-			console.log(followers);
-			console.log(following);
 			var friends = mergePersonsLists(followers, following);
-			var response = {
-				count   : friends.length,
-				persons : friends
-			};
-			res.send(response);
+			res.send(twitterPersonsToFriends(friends));
 		});
 	});
 });
@@ -183,75 +189,81 @@ app.get("/twitter/trends", function(req, res){
 	});
 });
 
-//app.get('/fb/login', function(req, res) {
-//
-//	// we don't have a code yet
-//	// so we'll redirect to the oauth dialog
-//	if (!req.query.code) {
-//		var authUrl = graph.getOauthUrl({
-//			"client_id":     conf.facebook.app_id,
-//			"redirect_uri":  conf.facebook.redirect_uri,
-//			"scope":         conf.facebook.scope
-//		});
-//
-//		if (!req.query.error) { //checks whether a user denied the app facebook login/permissions
-//			res.redirect(authUrl);
-//		} else {  //req.query.error == 'access_denied'
-//			res.send('Authentication denied');
-//		}
-//		return;
-//	}
-//
-//	console.log("Got query code: '" +  req.query.code + "'");
-//	graph.authorize({
-//		"client_id":      conf.facebook.app_id,
-//		"redirect_uri":   conf.facebook.redirect_uri,
-//		"client_secret":  conf.facebook.app_secret,
-//		"code":           req.query.code
-//	}, function (err, facebookRes) {
-//		if (!err) {
-//			conf.facebook.token = facebookRes;
-//			graph.setAccessToken(conf.facebook.token.access_token);
-//			res.redirect('/');
-//		} else {
-//			conf.facebook.token = {};
-//			graph.setAccessToken("");
-//			res.send('authorization denied');
-//		}
-//	});
-//});
-
 app.get("/fb/me", function(req, res){
 	var params = {};
-	//params.fields = "picture";
+	params.fields = "birthday, picture, email, first_name, last_name, gender, id, link, locale, name";
 
 	graph.setAccessToken(req.headers.fb_access_token);
 	graph.get("me", params, function(err, fb_res) {
 		console.log(fb_res);
-		res.send(fb_res);
+		var profile = {};
+		profile.birthday= fb_res.birthday;
+		profile.picture= fb_res.picture.data.url;
+		profile.email= fb_res.email;
+		profile.first_name= fb_res.first_name;
+		profile.last_name= fb_res.last_name;
+		profile.gender= fb_res.gender;
+		profile.id= fb_res.id;
+		profile.link= fb_res.link;
+		profile.locale= fb_res.locale;
+		profile.name = fb_res.name;
+		res.send(profile);
 	});
 });
 
 app.get("/fb/friends", function(req, res){
 	var params = {};
 	//params.fields = "picture";
+	var friends = [];
+
+	var callback = function (err, fb_res){
+		console.log(fb_res);
+		for (var index in fb_res.data){
+			friends.push({
+				name : fb_res.data[index].name,
+				picture : fb_res.data[index].picture.data.url
+			});
+		}
+
+		if(fb_res.paging && fb_res.paging.next){
+			graph.get(fb_res.paging.next, params, callback);
+		} else {
+			res.send(friends);
+		}
+	};
 
 	graph.setAccessToken(req.headers.fb_access_token);
-	graph.get("me/taggable_friends", params, function(err, fb_res) {
-		console.log(fb_res);
-		res.send(fb_res);
-	});
+	graph.get("me/taggable_friends", params, callback);
 });
 
 app.get("/fb/feeds", function(req, res){
 	var params = {};
 	//params.fields = "picture";
 
-	graph.setAccessToken(req.headers.fb_access_token);
-	graph.get("me/feed", params, function(err, fb_res) {
+	var feeds = [];
+	var callback = function (err, fb_res){
 		console.log(fb_res);
-		res.send(fb_res);
-	});
+		for (var index in fb_res.data){
+			var feed = {};
+			feed.author = fb_res.data[index].from.name;
+			feed.time = fb_res.data[index].updated_time;
+			feed.type = fb_res.data[index].type;
+			feed.message = fb_res.data[index].message;
+			feed.story = fb_res.data[index].story;
+			feed.picture = fb_res.data[index].picture;
+			feeds.push(feed);
+		}
+
+		if(fb_res.paging && fb_res.paging.next){
+			graph.get(fb_res.paging.next, params, callback);
+		} else {
+			res.send(feeds);
+		}
+	};
+
+
+	graph.setAccessToken(req.headers.fb_access_token);
+	graph.get("me/feed", params, callback);
 });
 
 app.get("/fb/permissions", function(req, res){
@@ -261,7 +273,7 @@ app.get("/fb/permissions", function(req, res){
 	graph.setAccessToken(req.headers.fb_access_token);
 	graph.get("me/permissions", params, function(err, fb_res) {
 		console.log(fb_res);
-		res.send(fb_res);
+		res.send(fb_res.data);
 	});
 });
 

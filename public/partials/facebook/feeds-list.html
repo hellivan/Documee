@@ -1,0 +1,32 @@
+<div class="jumbotron text-center">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8">
+                <div class="jumbotron text-center">
+                    <h2>Found <span class="box label label-info">{{ data_fb.length }}</span> events on the timeline</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="feed in data_fb">
+            <div class="row">
+                <div class="col-md-12 text-left">
+                    <h4>{{feed.author}}<span class="side-note"> ({{feed.time}})</span></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <img ng-if="feed.picture" ng-src="{{feed.picture}}"/>
+                    <img ng-if="!feed.picture" src="https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/128/child_new_post.png"/>
+                </div>
+                <div class="col-md-10 text-left" >
+                    <div ng-if="feed.message">Message: {{feed.message}}</div>
+                    <div ng-if="feed.story">Story: {{feed.story}}</div>
+                </div>
+
+            </div>
+        </li>
+    </ul>
+</div>
