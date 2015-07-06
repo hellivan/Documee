@@ -7,10 +7,8 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
 
-    <script src="//connect.facebook.net/en_US/all.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
-    <script src="bower_components/ng-facebook/ngFacebook.js"></script>
     <script src="bower_components/oauth-js/dist/oauth.min.js"></script>
 
 
@@ -24,7 +22,7 @@
         <div class="panel panel-primary">
             <div class="panel-heading">Facebook</div>
             <div class="panel-body">
-                <div ng-hide="!isFacebookLoggedIn">
+                <div ng-hide="!auth.fb.authenticated">
                     <ul >
                         <li><a href="" ng-click="get_fb_me()">Fetch profile-infos from Facebook</a></li>
                         <li><a href="" ng-click="get_fb_friends()">Fetch tagable friends from Facebook</a></li>
@@ -32,9 +30,12 @@
                         <li><a href="" ng-click="get_fb_permissions()">Fetch all app-permissions</a></li>
                         <li><a href="" ng-click="delete_fb_permissions()">Delete all Facebook app-permissions</a></li>
                     </ul>
+                    <ui-view>
+
+                    </ui-view>
                 </div>
 
-                <div ng-hide="isFacebookLoggedIn">
+                <div ng-hide="auth.fb.authenticated">
                     <button type="button" ng-click="loginFacebook()" class="btn btn-default navbar-btn">
                         Login
                     </button>
@@ -45,7 +46,7 @@
         <div class="panel panel-primary">
             <div class="panel-heading">Twitter</div>
             <div class="panel-body">
-                <div ng-hide="!isTwitterLoggedIn">
+                <div ng-hide="!auth.twitter.authenticated">
                     <ul>
                         <li><a href="" ng-click="get_twitter_followers()">Fetch followers on twitter</a></li>
                         <li><a href="" ng-click="get_twitter_following()">Fetch people followed on twitter</a></li>
@@ -54,7 +55,7 @@
                     </ul>
                 </div>
 
-                <div ng-hide="isTwitterLoggedIn">
+                <div ng-hide="auth.twitter.authenticated">
                     <button type="button" ng-click="loginTwitter()" class="btn btn-default navbar-btn">
                         Login
                     </button>
@@ -66,7 +67,5 @@
 
 
 
-    <!--<div id="fb-root">-->
-    <!--</div>-->
 </body>
 </html>

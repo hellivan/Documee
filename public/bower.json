@@ -17,9 +17,7 @@
     "angular": "~1.4.1",
     "bootstrap": "~3.3.5",
     "angular-bootstrap": "~0.13.0",
-    "angular-facebook": "~0.2.3",
-    "ng-facebook": "~0.1.6",
-    "kinvey-angular": "~1.0.0",
-    "oauth-js": "~0.4.3"
+    "oauth-js": "~0.4.3",
+    "angular-ui-router": "~0.2.15"
   }
 }

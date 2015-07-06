@@ -27,7 +27,7 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
     // Request headers you wish to allow
-	res.setHeader('Access-Control-Allow-Headers', 'fb_access_token, twitter_access_token, Accept, Content-Type');
+	res.setHeader('Access-Control-Allow-Headers', 'fb_access_token, twitter_oauth_token, twitter_oauth_token_secret, documee_key, Accept, Content-Type');
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
@@ -45,27 +45,30 @@ var conf = {};
 conf.twitter = {};
 conf.facebook = {};
 
-// application settings
+
 conf.twitter.consumer_key = "r6uKNLSHibUkIxTHqkKGftZgd";
 conf.twitter.consumer_secret = "V6sAHyGqmAutcCu51RLvO8mZoNR996XByBXW2j6LKK22QXiaMP";
-// access tokens
-conf.twitter.access_token_key = "2689340107-mHDxktHSHjFC65jENOwONuSF2vJCxgrQJiyKzLr";
-conf.twitter.access_token_secret = "8egHFAyEkI4x7oFAzGHVblAFKQkjv9JKVtTECm3gGmF7c";
 
+
+conf.facebook.app_id = "1136006799750257";
 conf.facebook.app_secret = "c6e53075d860ac0df13ae3a5c30dd042";
 conf.facebook.token = "";
-conf.facebook.app_id = "1136006799750257";
 conf.facebook.redirect_uri = "http://localhost:8000/fb/login";
 conf.facebook.scope = 'public_profile, email, user_friends, read_custom_friendlists, user_likes, user_about_me, user_birthday, user_location, user_posts';
 
 
 
-var client = new Twitter({
-	consumer_key: conf.twitter.consumer_key,
-	consumer_secret: conf.twitter.consumer_secret,
-	access_token_key: conf.twitter.access_token_key,
-	access_token_secret: conf.twitter.access_token_secret
-});
+function getTwitterClient(oauth_token, oauth_token_secret){
+	console.log("Creating twitter client with oauth: " + oauth_token + " - " + oauth_token_secret);
+	return new Twitter({
+		consumer_key: conf.twitter.consumer_key,
+		consumer_secret: conf.twitter.consumer_secret,
+		access_token_key: oauth_token,
+		access_token_secret: oauth_token_secret
+	});
+};
+
+
 
 
 function getPerson(twitterPerson){
@@ -75,9 +78,9 @@ function getPerson(twitterPerson){
 		description   : twitterPerson.description,
 		image         : twitterPerson.profile_image_url_https
 	};
-}
+};
 
-function getTwitterFollowing(callback){
+function getTwitterFollowing(client, callback){
 	client.get('friends/list', {count:200}, function(error, data, response){
 		if(error) throw error;
 		//console.log(data);
@@ -87,9 +90,9 @@ function getTwitterFollowing(callback){
 		}
 		callback(persons);
 	});
-}
+};
 
-function getTwitterFollowers(callback){
+function getTwitterFollowers(client, callback){
 	client.get('followers/list', {count:200}, function(error, data, response){
 		if(error) throw error;
 		//console.log(data);
@@ -99,9 +102,9 @@ function getTwitterFollowers(callback){
 		}
 		callback(persons);
 	});
-}
+};
 
-function getTwitterTrends(callback){
+function getTwitterTrends(client, callback){
 	client.get('trends/place', {id:23424853}, function(error, data, response){
 		if(error) throw error;
 
@@ -117,7 +120,7 @@ function getTwitterTrends(callback){
 
 		callback(data[0].trends);
 	});
-}
+};
 
 function mergePersonsLists(persons1, persons2){
 	var merged = [];
@@ -132,12 +135,12 @@ function mergePersonsLists(persons1, persons2){
 		}
 	}
 	return merged;
-}
+};
 
 
 app.get("/twitter/following", function(req, res){
-
-	getTwitterFollowing(function(persons){
+	var client = getTwitterClient(req.headers.twitter_oauth_token, req.headers.twitter_oauth_token_secret);
+	getTwitterFollowing(client, function(persons){
 		var response = {
 			count   : persons.length,
 			persons : persons
@@ -147,8 +150,8 @@ app.get("/twitter/following", function(req, res){
 });
 
 app.get("/twitter/followers", function(req, res){
-
-	getTwitterFollowers(function(persons){
+	var client = getTwitterClient(req.headers.twitter_oauth_token, req.headers.twitter_oauth_token_secret);
+	getTwitterFollowers(client, function(persons){
 		var response = {
 			count   : persons.length,
 			persons : persons
@@ -158,9 +161,9 @@ app.get("/twitter/followers", function(req, res){
 });
 
 app.get("/twitter/friends", function(req, res){
-
-	getTwitterFollowers(function(followers){
-		getTwitterFollowing(function(following){
+	var client = getTwitterClient(req.headers.twitter_oauth_token, req.headers.twitter_oauth_token_secret);
+	getTwitterFollowers(client, function(followers){
+		getTwitterFollowing(client, function(following){
 			console.log(followers);
 			console.log(following);
 			var friends = mergePersonsLists(followers, following);
@@ -174,49 +177,49 @@ app.get("/twitter/friends", function(req, res){
 });
 
 app.get("/twitter/trends", function(req, res){
-
-	getTwitterTrends(function(trends){
+	var client = getTwitterClient(req.headers.twitter_oauth_token, req.headers.twitter_oauth_token_secret);
+	getTwitterTrends(client, function(trends){
 		res.send(trends);
 	});
 });
 
-app.get('/fb/login', function(req, res) {
-
-	// we don't have a code yet
-	// so we'll redirect to the oauth dialog
-	if (!req.query.code) {
-		var authUrl = graph.getOauthUrl({
-			"client_id":     conf.facebook.app_id,
-			"redirect_uri":  conf.facebook.redirect_uri,
-			"scope":         conf.facebook.scope
-		});
-
-		if (!req.query.error) { //checks whether a user denied the app facebook login/permissions
-			res.redirect(authUrl);
-		} else {  //req.query.error == 'access_denied'
-			res.send('Authentication denied');
-		}
-		return;
-	}
-
-	console.log("Got query code: '" +  req.query.code + "'");
-	graph.authorize({
-		"client_id":      conf.facebook.app_id,
-		"redirect_uri":   conf.facebook.redirect_uri,
-		"client_secret":  conf.facebook.app_secret,
-		"code":           req.query.code
-	}, function (err, facebookRes) {
-		if (!err) {
-			conf.facebook.token = facebookRes;
-			graph.setAccessToken(conf.facebook.token.access_token);
-			res.redirect('/');
-		} else {
-			conf.facebook.token = {};
-			graph.setAccessToken("");
-			res.send('authorization denied');
-		}
-	});
-});
+//app.get('/fb/login', function(req, res) {
+//
+//	// we don't have a code yet
+//	// so we'll redirect to the oauth dialog
+//	if (!req.query.code) {
+//		var authUrl = graph.getOauthUrl({
+//			"client_id":     conf.facebook.app_id,
+//			"redirect_uri":  conf.facebook.redirect_uri,
+//			"scope":         conf.facebook.scope
+//		});
+//
+//		if (!req.query.error) { //checks whether a user denied the app facebook login/permissions
+//			res.redirect(authUrl);
+//		} else {  //req.query.error == 'access_denied'
+//			res.send('Authentication denied');
+//		}
+//		return;
+//	}
+//
+//	console.log("Got query code: '" +  req.query.code + "'");
+//	graph.authorize({
+//		"client_id":      conf.facebook.app_id,
+//		"redirect_uri":   conf.facebook.redirect_uri,
+//		"client_secret":  conf.facebook.app_secret,
+//		"code":           req.query.code
+//	}, function (err, facebookRes) {
+//		if (!err) {
+//			conf.facebook.token = facebookRes;
+//			graph.setAccessToken(conf.facebook.token.access_token);
+//			res.redirect('/');
+//		} else {
+//			conf.facebook.token = {};
+//			graph.setAccessToken("");
+//			res.send('authorization denied');
+//		}
+//	});
+//});
 
 app.get("/fb/me", function(req, res){
 	var params = {};
@@ -271,9 +274,6 @@ app.delete("/fb/permissions", function(req, res){
 	});
 });
 
-app.get("/", function(req, res){
-	res.sendFile(__dirname + '/public/index.html');
-});
 
 app.get("/api/fb", function(req,res){
 	res.send({
