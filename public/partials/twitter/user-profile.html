@@ -5,43 +5,42 @@
 
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{data_fb.name}}</h3>
+                    <h3 class="panel-title">{{data_twitter.name}}</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" ng-src="{{data_fb.picture}}" class="img-circle"> </div>
+                        <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" ng-src="{{data_twitter.picture}}" class="img-circle"> </div>
 
                         <div class=" col-md-9 col-lg-9 ">
                             <table class="table table-user-information">
                                 <tbody>
                                 <tr>
-                                    <td>First name</td>
-                                    <td>{{data_fb.first_name}}</td>
+                                    <td>Screen name</td>
+                                    <td>{{data_twitter.screen_name}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Last name</td>
-                                    <td>{{data_fb.last_name}}</td>
+                                    <td>User ID</td>
+                                    <td>{{data_twitter.id}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Birthday</td>
-                                    <td>{{data_fb.birthday}}</td>
-                                </tr>
-
-                                <tr>
-                                    <td>Gender</td>
-                                    <td>{{data_fb.gender}}</td>
+                                    <td>Joined Twitter</td>
+                                    <td>{{data_twitter.join_date}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Locale</td>
-                                    <td>{{data_fb.locale}}</td>
+                                    <td>Followers</td>
+                                    <td>{{data_twitter.followers_count}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Email</td>
-                                    <td><a ng-href="{{data_fb.email}}">{{data_fb.email}}</a></td>
+                                    <td>Following</td>
+                                    <td>{{data_twitter.following_count}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Language</td>
+                                    <td>{{data_twitter.language}}</td>
                                 </tr>
                                 <tr>
                                     <td>Profile</td>
-                                    <td><a ng-href="{{data_fb.link}}">Facebook</a></td>
+                                    <td><a ng-href="{{data_twitter.link}}">Twitter</a></td>
                                 </tr>
                                 </tbody>
                             </table>

@@ -129,6 +129,33 @@ function getTwitterTrends(client, callback){
 	});
 };
 
+function getTwitterUser(client, callback){
+	client.get("account/verify_credentials", {}, function(error, data, response){
+		if(error) throw error;
+		var profile = {
+			id : data.id,
+			name: data.name,
+			screen_name : data.screen_name,
+			join_date : data.created_at,
+			followers_count : data.followers_count,
+			following_count : data.friends_count,
+			language : data.lang,
+			picture : data.profile_image_url,
+			link: "https://twitter.com/" + data.screen_name
+		};
+		callback(profile);
+	});
+};
+
+function postTwitterStatus(client, status, callback){
+	client.post('statuses/update', {status: status},  function(error, tweet, response){
+		if(error) throw error;
+		console.log(tweet);  // Tweet body.
+		console.log(response);  // Raw response object.
+		callback(tweet);
+	});
+};
+
 function mergePersonsLists(persons1, persons2){
 	var merged = [];
 	for (var index1 in persons1){
@@ -186,6 +213,21 @@ app.get("/twitter/trends", function(req, res){
 	var client = getTwitterClient(req.headers.twitter_oauth_token, req.headers.twitter_oauth_token_secret);
 	getTwitterTrends(client, function(trends){
 		res.send(trends);
+	});
+});
+
+app.get("/twitter/me", function(req, res){
+	var client = getTwitterClient(req.headers.twitter_oauth_token, req.headers.twitter_oauth_token_secret);
+	getTwitterUser(client, function(user){
+		res.send(user);
+	});
+});
+
+app.post("/twitter/status", function(req, res){
+	var client = getTwitterClient(req.headers.twitter_oauth_token, req.headers.twitter_oauth_token_secret);
+	console.log("Trying to post '" + req.body.status + "' on twitter...")
+	postTwitterStatus(client, req.body.status, function(tweet){
+		res.send(tweet);
 	});
 });
 
@@ -281,11 +323,19 @@ app.delete("/fb/permissions", function(req, res){
 
 	graph.setAccessToken(req.headers.fb_access_token);
 	graph.del("me/permissions", function(err, fb_res) {
-		console.log(res);
+		console.log(fb_res);
 		res.send("Done.");
 	});
 });
 
+app.post("/fb/status", function(req, res){
+	console.log("Trying to post '" + req.body.status + "' on facebook...");
+	graph.setAccessToken(req.headers.fb_access_token);
+	graph.post("/feed", {message: req.body.status}, function(err, fb_res) {
+		console.log(fb_res);
+		res.send("Done.");
+	});
+});
 
 app.get("/api/fb", function(req,res){
 	res.send({

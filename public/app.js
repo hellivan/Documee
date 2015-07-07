@@ -1,14 +1,41 @@
 var app = angular.module('documee_demo', ['ui.bootstrap', 'ui.router']);
 
+app.controller("PostFbStatusController", function($http, $scope ){
+    var api_base_address = "http://localhost:8000/"
 
-app.config(function($stateProvider){
+    $scope.status = undefined;
 
+    $scope.postStatus = function(){
+        $http.post(api_base_address + "fb/status", {status: $scope.status}).
+            success(function(data, status, headers, config) {
+                console.log(data);
+                $scope.status = undefined;
+            }).
+            error(function(data, status, headers, config) {
+                console.log("Error: " + data);
+            });
+    };
 });
 
+app.controller("PostTwitterStatusController", function($http, $scope ){
+    var api_base_address = "http://localhost:8000/"
 
+    $scope.status = undefined;
+
+    $scope.postStatus = function(){
+        $http.post(api_base_address + "twitter/status", {status: $scope.status}).
+            success(function(data, status, headers, config) {
+                console.log(data);
+                $scope.status = undefined;
+            }).
+            error(function(data, status, headers, config) {
+                console.log("Error: " + data);
+            });
+    };
+});
 
 app.controller("mainController", function ($http, $scope, $rootScope) {
-
+    var api_base_address = "http://localhost:8000/"
 
     OAuth.initialize("U7oog1cN5o_ZsjeoQ_rPOxbFaKA");
 
@@ -17,32 +44,52 @@ app.controller("mainController", function ($http, $scope, $rootScope) {
             {
                 name: 'get_permissions',
                 description: 'Fetch all app-permissions',
-                method: 'get_fb_permissions',
+                api : {
+                    method : 'get',
+                    call : api_base_address + 'fb/permissions'
+                },
                 template : 'partials/facebook/permissions-list.html'
             },
             {
                 name: 'delete_permissions',
                 description: 'Delete all Facebook app-permissions',
-                method: 'delete_fb_permissions'
+                api : {
+                    method : 'delete',
+                    call : api_base_address + 'fb/permissions'
+                }
             },
             {
                 name: 'get_friends',
                 description: 'Fetch tagable friends from Facebook',
-                method: 'get_fb_friends',
+                api : {
+                    method : 'get',
+                    call : api_base_address + 'fb/friends'
+                },
                 template : 'partials/facebook/friends-list.html'
             },
             {
                 name: 'get_me',
                 description: 'Fetch profile-infos from Facebook',
-                method: 'get_fb_me',
+                api : {
+                    method : 'get',
+                    call : api_base_address + 'fb/me'
+                },
                 template : 'partials/facebook/user-profile.html'
             },
             {
                 name: 'get_feeds',
                 description: 'Fetch latest feeds on Facebook',
-                method: 'get_fb_feeds',
+                api : {
+                    method : 'get',
+                    call : api_base_address + 'fb/feeds'
+                },
                 template : 'partials/facebook/feeds-list.html'
             },
+            {
+                name : 'post_status',
+                description : 'Post status-update on facebook',
+                template : 'partials/facebook/post-update.html'
+            }
 
         ],
         current : undefined
@@ -53,42 +100,98 @@ app.controller("mainController", function ($http, $scope, $rootScope) {
             {
                 name: 'get_friends',
                 description: 'Fetch friends on twitter',
-                method: 'get_twitter_friends',
+                api : {
+                    method : 'get',
+                    call : api_base_address + 'twitter/friends'
+                },
                 template : 'partials/twitter/friends-list.html'
             },
             {
                 name: 'delete_following',
                 description: 'Fetch people following on twitter',
-                method: 'get_twitter_following',
+                api : {
+                    method : 'get',
+                    call : api_base_address + 'twitter/following'
+                },
                 template : 'partials/twitter/friends-list.html'
             },
             {
                 name: 'get_followers',
                 description: 'Fetch followers on twitter',
-                method: 'get_twitter_followers',
+                api : {
+                    method : 'get',
+                    call : api_base_address + 'twitter/followers'
+                },
                 template : 'partials/twitter/friends-list.html'
             },
             {
                 name: 'get_trends',
                 description: 'Fetch top 10 trends on twitter',
-                method: 'get_twitter_trends',
+                api : {
+                    method : 'get',
+                    call : api_base_address + 'twitter/trends'
+                },
                 template : 'partials/twitter/trends-list.html'
+            },
+            {
+                name : 'get_user',
+                description : 'Fetch user information on twitter',
+                api : {
+                    method : 'get',
+                    call : api_base_address + 'twitter/me'
+                },
+                template : 'partials/twitter/user-profile.html'
+            },
+            {
+                name : 'post_status',
+                description : 'Post status-update on twitter',
+                template : 'partials/twitter/post-update.html'
             }
-
         ],
         current : undefined
     };
 
     $scope.switchFbState = function(state){
         $scope.fb_result = undefined;
-        $scope.fbstate.current = state.name;
-        $scope[state.method]();
+        $scope.fbstate.current = undefined;
+
+        if(state){
+            if(state.api){
+                $http[state.api.method](state.api.call).
+                    success(function(data, status, headers, config) {
+                        console.log(data);
+                        $scope.data_fb = data;
+                        $scope.fbstate.current = state.name;
+                    }).
+                    error(function(data, status, headers, config) {
+                        console.log("Error: " );
+                        console.log(data);
+                    });
+            } else if(state.template) {
+                $scope.fbstate.current = state.name;
+            }
+        }
     };
 
     $scope.switchTwitterState = function(state){
         $scope.twitter_result = undefined;
-        $scope.twitterstate.current = state.name;
-        $scope[state.method]();
+        $scope.twitterstate.current = undefined;
+
+        if(state){
+            if(state.api){
+                $http[state.api.method](state.api.call).
+                    success(function(data, status, headers, config) {
+                        console.log(data);
+                        $scope.data_twitter = data;
+                        $scope.twitterstate.current = state.name;
+                    }).
+                    error(function(data, status, headers, config) {
+                        console.log("Error: " + data);
+                    });
+            } else if(state.template) {
+                $scope.twitterstate.current = state.name;
+            }
+        }
     };
 
     $scope.auth = {};
@@ -120,7 +223,7 @@ app.controller("mainController", function ($http, $scope, $rootScope) {
 
 
     $scope.loginTwitter = function(){
-        OAuth.popup('twitter').done(function(result) {
+        OAuth.popup('twitter', {cache: false}).done(function(result) {
             console.log("Authenticated with twitter");
             console.log(result);
             set_twitter_credentials(result.oauth_token, result.oauth_token_secret);
@@ -129,153 +232,11 @@ app.controller("mainController", function ($http, $scope, $rootScope) {
     };
 
     $scope.loginFacebook = function(){
-        OAuth.popup('facebook').done(function(result) {
+        OAuth.popup('facebook', {cache: false}).done(function(result) {
             console.log("Authenticated with facebook");
             console.log(result);
             set_fb_credentials(result.access_token);
             $rootScope.$apply();
         });
     };
-
-    //$scope.login = function(){
-    //    $facebook.login().then(function(response) {
-    //        refresh();
-    //    });
-    //};
-
-    //function refresh() {
-    //    console.log("Called refresh");
-    //    $facebook.api("/me").then(
-    //        function(res) {
-    //            set_fb_credentials($facebook.getAuthResponse().accessToken);
-    //            $scope.isFacebookLoggedIn = true;
-    //        }
-    //    );
-    //};
-
-    //refresh();
-
-
-    $scope.get_app_id = function(){
-        $http.get("http://localhost:8000/api/fb").
-            success(function(data, status, headers, config) {
-                console.log("App ID is " + data.app_id);
-
-            }).
-            error(function(data, status, headers, config) {
-                console.log("Error: " + data);
-            }
-        );
-    };
-
-    $scope.get_fb_me = function(){
-        $http.get("http://localhost:8000/fb/me").
-            success(function(data, status, headers, config) {
-                console.log(data);
-                $scope.data_fb = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.log("Error: " );
-                console.log(data);
-            }
-        );
-    };
-
-    $scope.get_fb_friends = function(){
-        $http.get("http://localhost:8000/fb/friends").
-            success(function(data, status, headers, config) {
-                console.log(data);
-                $scope.data_fb = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.log("Error: " + data);
-            }
-        );
-    };
-
-    $scope.get_fb_feeds = function(){
-        $http.get("http://localhost:8000/fb/feeds").
-            success(function(data, status, headers, config) {
-                console.log(data);
-                $scope.data_fb = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.log("Error: " + data);
-            }
-        );
-    };
-
-    $scope.get_fb_permissions = function(){
-        $http.get("http://localhost:8000/fb/permissions").
-            success(function(data, status, headers, config) {
-                console.log(data);
-                $scope.data_fb = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.log("Error: " + data);
-            }
-        );
-    };
-
-    $scope.delete_fb_permissions = function(){
-        $http.delete("http://localhost:8000/fb/permissions").
-            success(function(data, status, headers, config) {
-                console.log(data);
-                $scope.fb_result = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.log("Error: " + data);
-            }
-        );
-    };
-
-    $scope.get_twitter_followers = function(){
-        $http.get("http://localhost:8000/twitter/followers").
-            success(function(data, status, headers, config) {
-                console.log(data);
-                $scope.data_twitter = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.log("Error: " + data);
-            }
-        );
-    };
-
-    $scope.get_twitter_following = function(){
-        $http.get("http://localhost:8000/twitter/following").
-            success(function(data, status, headers, config) {
-                console.log(data);
-                $scope.data_twitter = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.log("Error: " + data);
-            }
-        );
-    };
-
-    $scope.get_twitter_friends = function(){
-        $http.get("http://localhost:8000/twitter/friends").
-            success(function(data, status, headers, config) {
-                console.log(data);
-                $scope.data_twitter = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.log("Error: " + data);
-            }
-        );
-    };
-
-    $scope.get_twitter_trends = function(){
-        $http.get("http://localhost:8000/twitter/trends").
-            success(function(data, status, headers, config) {
-                console.log(data);
-                $scope.data_twitter = data;
-            }).
-            error(function(data, status, headers, config) {
-                console.log("Error: " + data);
-            }
-        );
-    };
-
-
 });
