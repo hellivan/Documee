@@ -18,47 +18,53 @@
 </head>
 <body ng-controller="mainController">
 
-    <div class="container">
-        <div class="panel panel-primary">
-            <div class="panel-heading">Facebook</div>
-            <div class="panel-body">
-                <div ng-hide="!auth.fb.authenticated">
-                    <ul>
-                        <li ng-repeat="state in fbstate.states">
-                            <a href="" ng-click="switchFbState(state)">{{state.description}}</a>
-                        </li>
-                    </ul>
-                    <div ng-repeat="state in fbstate.states">
-                        <div ng-if="fbstate.current==state.name" ng-include="state.template"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Facebook</div>
+                    <div class="panel-body">
+                        <div ng-hide="!auth.fb.authenticated">
+                            <ul>
+                                <li ng-repeat="state in fbstate.states">
+                                    <a href="" ng-click="switchFbState(state)">{{state.description}}</a>
+                                </li>
+                            </ul>
+                            <div ng-repeat="state in fbstate.states">
+                                <div ng-if="fbstate.current==state.name" ng-include="state.template"></div>
+                            </div>
+                        </div>
+
+                        <div ng-hide="auth.fb.authenticated">
+                            <button type="button" ng-click="loginFacebook()" class="btn btn-default navbar-btn">
+                                Login
+                            </button>
+                        </div>
+
                     </div>
                 </div>
-
-                <div ng-hide="auth.fb.authenticated">
-                    <button type="button" ng-click="loginFacebook()" class="btn btn-default navbar-btn">
-                        Login
-                    </button>
-                </div>
-
             </div>
-        </div>
-        <div class="panel panel-primary">
-            <div class="panel-heading">Twitter</div>
-            <div class="panel-body">
-                <div ng-hide="!auth.twitter.authenticated">
-                    <ul>
-                        <li ng-repeat="state in twitterstate.states">
-                            <a href="" ng-click="switchTwitterState(state)">{{state.description}}</a>
-                        </li>
-                    </ul>
-                    <div ng-repeat="state in twitterstate.states">
-                        <div ng-if="twitterstate.current==state.name" ng-include="state.template"></div>
-                    </div>
-                </div>
+            <div class="col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Twitter</div>
+                    <div class="panel-body">
+                        <div ng-hide="!auth.twitter.authenticated">
+                            <ul>
+                                <li ng-repeat="state in twitterstate.states">
+                                    <a href="" ng-click="switchTwitterState(state)">{{state.description}}</a>
+                                </li>
+                            </ul>
+                            <div ng-repeat="state in twitterstate.states">
+                                <div ng-if="twitterstate.current==state.name" ng-include="state.template"></div>
+                            </div>
+                        </div>
 
-                <div ng-hide="auth.twitter.authenticated">
-                    <button type="button" ng-click="loginTwitter()" class="btn btn-default navbar-btn">
-                        Login
-                    </button>
+                        <div ng-hide="auth.twitter.authenticated">
+                            <button type="button" ng-click="loginTwitter()" class="btn btn-default navbar-btn">
+                                Login
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
