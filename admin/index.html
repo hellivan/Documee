@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="documee_admin">
+    <meta charset="UTF-8">
+    <title>Documee Admin</title>
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/momentjs/moment.js"></script>
+    <script src="bower_components/angular-moment/angular-moment.js"></script>
+
+
+
+    <script src="app.js"></script>
+</head>
+<body ng-controller="mainController">
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+            <table class="table table-bordered table-hover table-striped text-center">
+                <thead>
+                    <tr>
+                        <th class="text-center">Company name</th>
+                        <th class="text-center">E-Mail</th>
+                        <th class="text-center">API-key</th>
+                        <th class="text-center">Date</th>
+                        <th class="text-center">Authorized</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="consumer in consumers">
+                        <td>{{consumer.company_name}}</td>
+                        <td>{{consumer.email}}</td>
+                        <td>{{consumer.api_key}}</td>
+                        <td>{{consumer.created_at | amDateFormat:'Do  MMMM YYYY, h:mm:ss a'}}</td>
+                        <td><input type="checkbox" ng-model="consumer.authorized" ng-change="changeAuthorized(consumer)"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

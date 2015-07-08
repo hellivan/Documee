@@ -1,7 +1,10 @@
+var Twitter = require('twitter')
 
 
+var stub = {};
 
-exports.getFollowing = function(client, callback){
+stub.getFollowing = function(app_oauth, user_oauth, callback){
+    var client = getTwitterClient(app_oauth, user_oauth);
     client.get('friends/list', {count:200}, function(error, data, response){
         if(error) throw error;
         var persons = [];
@@ -12,7 +15,8 @@ exports.getFollowing = function(client, callback){
     });
 };
 
-exports.getFollowers = function(client, callback){
+stub.getFollowers = function(app_oauth, user_oauth, callback){
+    var client = getTwitterClient(app_oauth, user_oauth);
     client.get('followers/list', {count:200}, function(error, data, response){
         if(error) throw error;
         var persons = [];
@@ -24,7 +28,8 @@ exports.getFollowers = function(client, callback){
 };
 
 
-exports.getTrends = function(client, callback){
+stub.getTrends = function(app_oauth, user_oauth, callback){
+    var client = getTwitterClient(app_oauth, user_oauth);
     client.get('trends/place', {id:23424853}, function(error, data, response){
         if(error) throw error;
 
@@ -49,7 +54,8 @@ exports.getTrends = function(client, callback){
     });
 };
 
-exports.getMe = function(client, callback){
+stub.getMe = function(app_oauth, user_oauth, callback){
+    var client = getTwitterClient(app_oauth, user_oauth);
     client.get("account/verify_credentials", {}, function(error, data, response){
         if(error) throw error;
         var profile = {
@@ -67,19 +73,32 @@ exports.getMe = function(client, callback){
     });
 };
 
-exports.postStatus = function(client, status, callback){
+stub.postStatus = function(app_oauth, user_oauth, status, callback){
+    var client = getTwitterClient(app_oauth, user_oauth);
     client.post('statuses/update', {status: status},  function(error, tweet, response){
         if(error) throw error;
         callback(tweet);
     });
 };
 
-exports.getFriends = function(client, callback){
-    exports.getFollowers(client, function(followers){
-        exports.getFollowing(client, function(following){
+stub.getFriends = function(app_oauth, user_oauth, callback){
+    stub.getFollowers(app_oauth, user_oauth, function(followers){
+        stub.getFollowing(app_oauth, user_oauth, function(following){
             var friends = mergePersonsLists(followers, following);
             callback(friends);
         });
+    });
+};
+
+function getTwitterClient(app_oauth, user_oauth){
+    console.log("Creating twitter client with:" +
+        "\napp_oauth: " + app_oauth.client_id + " - " + app_oauth.client_secret +
+        "\nuser_oauth: " + user_oauth.token + " - " + user_oauth.secret);
+    return new Twitter({
+        consumer_key: app_oauth.client_id,
+        consumer_secret: app_oauth.client_secret,
+        access_token_key: user_oauth.token,
+        access_token_secret: user_oauth.secret
     });
 };
 
@@ -108,3 +127,4 @@ function getPerson(twitterPerson){
     };
 };
 
+module.exports = stub;

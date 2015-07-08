@@ -1,9 +1,10 @@
 {
-  "name": "public",
+  "name": "example",
   "version": "0.0.0",
   "authors": [
     "Ivan Hell <hell.ivan@yahoo.com>"
   ],
+  "main": "index.html",
   "license": "MIT",
   "ignore": [
     "**/.*",
@@ -13,9 +14,10 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.2",
-    "angular-ui-router": "~0.2.15",
+    "angular": "~1.4.1",
+    "bootstrap": "~3.3.5",
     "angular-bootstrap": "~0.13.0",
-    "bootstrap": "~3.3.5"
+    "oauth-js": "~0.4.3",
+    "angular-ui-router": "~0.2.15"
   }
 }

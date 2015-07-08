@@ -1,5 +1,5 @@
 {
-  "name": "public",
+  "name": "admin",
   "version": "0.0.0",
   "authors": [
     "Ivan Hell <hell.ivan@yahoo.com>"
@@ -16,6 +16,8 @@
     "angular": "~1.4.2",
     "angular-ui-router": "~0.2.15",
     "angular-bootstrap": "~0.13.0",
-    "bootstrap": "~3.3.5"
+    "bootstrap": "~3.3.5",
+    "momentjs": "~2.10.3",
+    "angular-moment": "~0.10.1"
   }
 }

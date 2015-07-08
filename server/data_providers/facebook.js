@@ -1,10 +1,18 @@
 
+var stub = {};
 
-exports.getMe = function (graph, access_token, callback){
+function getGraph(app_oauth, user_oauth){
+    var graph = require('fbgraph');
+    graph.setAppSecret(app_oauth.client_secret);
+    graph.setAccessToken(user_oauth.token);
+    return graph;
+};
+
+stub.getMe = function (app_oauth, user_oauth, callback){
     var params = {};
     params.fields = "birthday, picture, email, first_name, last_name, gender, id, link, locale, name";
 
-    graph.setAccessToken(access_token);
+    var graph = getGraph(app_oauth, user_oauth);
     graph.get("me", params, function(err, fb_res) {
         var profile = {};
         profile.birthday= fb_res.birthday;
@@ -21,7 +29,7 @@ exports.getMe = function (graph, access_token, callback){
     });
 };
 
-exports.getFriends = function (graph, access_token, callback){
+stub.getFriends = function (app_oauth, user_oauth, callback){
     var params = {};
     //params.fields = "picture";
     var friends = [];
@@ -41,11 +49,11 @@ exports.getFriends = function (graph, access_token, callback){
         }
     };
 
-    graph.setAccessToken(access_token);
+    var graph = getGraph(app_oauth, user_oauth);
     graph.get("me/taggable_friends", params, paging_cb);
 }
 
-exports.getFeeds = function(graph, access_token, callback){
+stub.getFeeds = function(app_oauth, user_oauth, callback){
     var params = {};
     //params.fields = "picture";
 
@@ -69,34 +77,35 @@ exports.getFeeds = function(graph, access_token, callback){
         }
     };
 
-
-    graph.setAccessToken(access_token);
+    var graph = getGraph(app_oauth, user_oauth);
     graph.get("me/feed", params, paging_cb);
 };
 
-exports.getPermissions = function(graph, access_token, callback){
+stub.getPermissions = function(app_oauth, user_oauth, callback){
     var params = {};
     //params.fields = "picture";
 
-    graph.setAccessToken(access_token);
+    var graph = getGraph(app_oauth, user_oauth);
     graph.get("me/permissions", params, function(err, fb_res) {
         callback(fb_res.data);
     });
 };
 
-exports.postStatus = function(graph, access_token, status, callback){
+stub.postStatus = function(app_oauth, user_oauth, status, callback){
     var params = {};
     params.message = status;
 
-    graph.setAccessToken(access_token);
+    var graph = getGraph(app_oauth, user_oauth);
     graph.post("/feed", params, function(err, fb_res) {
         callback(fb_res);
     });
 };
 
-exports.deletePermissions = function(graph, access_token, callback){
-    graph.setAccessToken(access_token);
+stub.deletePermissions = function(app_oauth, user_oauth, callback){
+    var graph = getGraph(app_oauth, user_oauth);
     graph.del("me/permissions", function(err, fb_res) {
         callback(fb_res);
     });
-}
+};
+
+module.exports = stub;
