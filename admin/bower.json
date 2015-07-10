@@ -18,6 +18,10 @@
     "angular-bootstrap": "~0.13.0",
     "bootstrap": "~3.3.5",
     "momentjs": "~2.10.3",
-    "angular-moment": "~0.10.1"
+    "angular-moment": "~0.10.1",
+    "angular-base64": "~2.0.5",
+    "angular-cookies": "~1.4.2",
+    "angular-route": "~1.4.2",
+    "jquery": "~2.1.4"
   }
 }
