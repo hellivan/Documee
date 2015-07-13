@@ -336,13 +336,12 @@ app.get("/api/key/:api_key/authorized", function(req, res){
 app.get("/api/key", function(req, res){
 	console.log("Request for api-key..");
 	var consumer = createAPIConsumer(req.query);
-	consumer.save(function(err){
-		if(!err){
-			res.send("Done.")
-		} else {
+	consumer.save(function(err, consumer){
+		if(err){
 			console.log(err);
-			res.send(err);
+			return res.send(err);
 		}
+		res.send(consumer);
 	});
 });
 
@@ -375,6 +374,13 @@ app.post("/api/key/:api_key/update_authorized", UserAuthenticated, function(req,
 
 // ==================  create admin-user if not exists  ==================
 User.update({username: 'admin'}, {$set : {password: 'admin'}}, {upsert: true}, function(err){});
+var documeeExampleConsumer = {
+	company_name: 'documee',
+	email: 'example@documee.com',
+	api_key: 'a43d4cda-fecf-44e6-b351-71f6ffc1f7f7',
+	authorized: true
+};
+Consumer.update({email: documeeExampleConsumer.email}, {$set : documeeExampleConsumer}, {upsert: true}, function(err){});
 
 // ==================  start the server  ==================
 var server = app.listen(8000, function(){

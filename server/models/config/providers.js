@@ -12,7 +12,7 @@ module.exports = function(mongoose){
 
 
 
-    return mongoose.model('providers', providerSchema);
+    return mongoose.model('Providers', providerSchema);
 };
 
 

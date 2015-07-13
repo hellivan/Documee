@@ -1,97 +1,46 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="documee_api_access">
-<head>
-    <meta charset="UTF-8">
-    <title>Documee Register</title>
+    <head>
+        <meta charset="UTF-8">
+        <title>Documee Register</title>
 
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="style.css">
 
-    <script src="bower_components/angular/angular.min.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
-    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="bower_components/angular-route/angular-route.js"></script>
 
 
 
-    <script src="app.js"></script>
-</head>
+        <script src="registration/js/registration.services.js"></script>
+        <script src="registration/js/registration.directives.js"></script>
+        <script src="registration/js/registration.controllers.js"></script>
+        <script src="registration/js/registration.module.js"></script>
 
-<body ng-controller="mainController">
-    <div class="container">
-        <div class="panel panel-primary">
-            <div class="panel-heading">Register for API-key</div>
-            <div class="panel-body">
-                <form class="form-horizontal" name="register_form" ng-submit="request_api_key()" role="form">
-                    <!-- Text input-->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="email">E-Mail</label>
-                        <div class="col-md-6">
-                            <input id="email" ng-model="email" type="text" placeholder="email" class="form-control input-md" required>
-                            <span class="help-block">e.g: mustermann@mail.com</span>
-                        </div>
-                    </div>
+        <script src="app.js"></script>
+    </head>
 
-                    <!-- Text input-->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="company_name">Company name</label>
-                        <div class="col-md-6">
-                            <input id="company_name" ng-model="company_name" type="text" placeholder="Name of your company" class="form-control input-md" required>
-                            <span class="help-block">e.g: MyCompany.inc</span>
-                        </div>
-                    </div>
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#/">Documee</a>
+                </div>
 
-                    <!-- Text input-->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="project_name">Project name</label>
-                        <div class="col-md-6">
-                            <input id="project_name" ng-model="project_name" type="text" placeholder="Your project" class="form-control input-md" required>
-                            <span class="help-block">e.g: MyProject</span>
-                        </div>
-                    </div>
-
-                    <!-- Text input-->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="project_url">Project website</label>
-                        <div class="col-md-6">
-                            <input id="project_url" ng-model="project_url" type="text" placeholder="URL to your project" class="form-control input-md">
-                            <span class="help-block">e.g: http://myproject.com</span>
-                        </div>
-                    </div>
-
-                    <!-- Textarea -->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="project_description">Project description</label>
-                        <div class="col-md-6">
-                            <textarea class="form-control" id="project_description" ng-model="project_description" placeholder="Short description of your project"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="form-actions">
-                        <div class="col-md-10">
-                            <button type="submit" ng-disabled="register_form.$invalid" class="btn btn-danger pull-right">Request API key</button>
-                        </div>
-                    </div>
-                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li dropdown class="dropdown">
+                        <a dropdown-toggle href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></a>
+                        <ul dropdown-menu class="dropdown-menu">
+                            <li><a href="#/register">Register for API-key</a></li>
+                            <li><a href="#/checkKey">Check API-key</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
-        </div>
-        <div class="panel panel-primary">
-            <div class="panel-heading">Check your API-key</div>
-            <div class="panel-body">
-                <form class="form-horizontal" name="api_key_form" ng-submit="check_api_key()" role="form">
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="api_key">API key</label>
-                        <div class="col-md-6">
-                            <input id="api_key" ng-model="api_key" type="text" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" class="form-control input-md" required>
-                        </div>
-                    </div>
-                    <div class="form-actions">
-                        <div class="col-md-10">
-                            <button type="submit" ng-disabled="api_key_form.$invalid" class="btn btn-danger pull-right">Check API key</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</body>
+        </nav>
+       <ng-view></ng-view>
+    </body>
 </html>

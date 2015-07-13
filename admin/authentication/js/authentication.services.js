@@ -1,7 +1,7 @@
-var appServices = angular.module('authentication.services', ['base64', 'ngCookies']);
+var appServices = angular.module('authentication.services', []);
 
 appServices.factory("AuthenticationService",
-function($base64, $http, $cookieStore, $rootScope, $timeout, $cookies){
+function($http, $rootScope){
     var service = {};
     var api_base_address = "http://localhost:8000/";
 
@@ -30,3 +30,4 @@ function($base64, $http, $cookieStore, $rootScope, $timeout, $cookies){
 
     return service;
 });
+

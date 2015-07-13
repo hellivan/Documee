@@ -1,4 +1,4 @@
-var app = angular.module('documee_admin', ['ui.bootstrap', 'ui.router', 'ngRoute', 'angularMoment', 'authentication', 'consumers']);
+var app = angular.module('documee_admin', ['ngCookies', 'ui.bootstrap', 'ui.router', 'ngRoute', 'angularMoment', 'authentication', 'consumers']);
 
 
 app.config(['$routeProvider', '$httpProvider',
@@ -12,9 +12,26 @@ app.config(['$routeProvider', '$httpProvider',
                 templateUrl: 'consumers/views/consumers-table.html',
                 controller: 'consumers.MainController'
             })
-            .otherwise({ redirectTo: '/consumers' });
+            .otherwise({redirectTo: '/consumers'});
 
         $httpProvider.defaults.withCredentials = true;
+
+        $httpProvider.interceptors.push(function ($q, $location) {
+            return {
+                'response': function (response) {
+                    //if (response.status === 401) {
+                    //    console.log("Response 401");
+                    //}
+                    return response || $q.when(response);
+                },
+                'responseError': function (rejection) {
+                    if (rejection.status === 401) {
+                        $location.path('/login').search('returnTo', $location.path());
+                    }
+                    return $q.reject(rejection);
+                }
+            };
+        });
     }
 ]);
 

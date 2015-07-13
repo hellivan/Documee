@@ -1,0 +1,1 @@
+var appDirectives = angular.module('registration.directives', []);

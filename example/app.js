@@ -1,5 +1,9 @@
-var app = angular.module('documee_demo', ['ui.bootstrap', 'ui.router']);
+var app = angular.module('documee_demo', ['angular-loading-bar', 'ui.bootstrap', 'ui.router']);
 
+app.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.includeSpinner = true;
+    cfpLoadingBarProvider.includeBar = false;
+  }]);
 
 app.controller("PostFbStatusController", function($http, $scope ){
     var api_base_address = "http://localhost:8000/api/v0/"
@@ -36,10 +40,9 @@ app.controller("PostTwitterStatusController", function($http, $scope ){
 });
 
 app.controller("mainController", function ($http, $scope, $rootScope) {
-    var api_base_address = "http://localhost:8000/api/v0/"
-
+    var api_base_address = "http://localhost:8000/api/v0/";
+    var api_key = "a43d4cda-fecf-44e6-b351-71f6ffc1f7f7";
     OAuth.initialize("U7oog1cN5o_ZsjeoQ_rPOxbFaKA");
-    $http.defaults.headers.common.api_key = "dfa87e3c-bc30-45fa-9f1c-e21b752e6184";
 
     $scope.fbstate = {
         states : [
@@ -208,6 +211,8 @@ app.controller("mainController", function ($http, $scope, $rootScope) {
         credentials : {}
     };
 
+    $scope.api_key = api_key;
+
     function set_fb_credentials(access_token){
         $scope.auth.fb.authenticated = true;
         $scope.auth.fb.credentials.access_token = access_token;
@@ -222,9 +227,9 @@ app.controller("mainController", function ($http, $scope, $rootScope) {
         $http.defaults.headers.common.twitter_oauth_token_secret = oauth_token_secret;
     }
 
-
-
-
+    $scope.updateApiKey = function (){
+        $http.defaults.headers.common.api_key = $scope.api_key;
+    };
 
     $scope.loginTwitter = function(){
         OAuth.popup('twitter', {cache: false}).done(function(result) {
@@ -243,4 +248,6 @@ app.controller("mainController", function ($http, $scope, $rootScope) {
             $rootScope.$apply();
         });
     };
+
+    $scope.updateApiKey();
 });

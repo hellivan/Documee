@@ -5,12 +5,14 @@
     <title>Documee Example</title>
 
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css">
     <link rel="stylesheet" href="style.css">
 
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
     <script src="bower_components/oauth-js/dist/oauth.min.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
 
 
 
@@ -18,7 +20,27 @@
 </head>
 <body ng-controller="mainController">
 
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#/">Documee</a>
+            </div>
+
+            <form class="navbar-form navbar-right" role="search" ng-submit="updateApiKey()">
+                <div class="input-group">
+                    <span class="input-group-addon">API-key</span>
+                    <input type="text" class="form-control" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" aria-describedby="basic-addon1" ng-model="api_key">
+                </div>
+                <button type="submit" class="btn btn-default">Update</button>
+            </form>
+
+        </div>
+    </nav>
+
     <div class="container-fluid">
+
         <div class="row">
             <div class="col-md-6">
                 <div class="panel panel-primary">
