@@ -2,11 +2,15 @@
     <div class="panel panel-primary">
         <div class="panel-heading">Check your API-key</div>
         <div class="panel-body">
-            <form class="form-horizontal" name="api_key_form" ng-submit="check_api_key()" role="form">
+            <form class="form-horizontal" name="api_key_form" ng-submit="checkApiKey()" role="form">
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="api_key">API key</label>
                     <div class="col-md-6">
                         <input id="api_key" ng-model="api_key" type="text" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" class="form-control input-md" required>
+                    </div>
+                    <div class="col-md-1 vcenter">
+                        <span ng-if="key_ok" style="vertical-align:bottom" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        <span ng-if="key_error" style="vertical-align:bottom" class="glyphicon glyphicon-remove" aria-hidden="true" tooltip="{{key_error}}"></span>
                     </div>
                 </div>
                 <div class="form-actions">

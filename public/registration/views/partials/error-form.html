@@ -1,0 +1,19 @@
+<div>
+    <container>
+        <row>
+            <div class="col-md-offset-2 col-md-8">
+                <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <label class="control-label">Registration-Error:</label> {{error.message}}
+                </div>
+            </div>
+        </row>
+        <row >
+            <form ng-submit="back()">
+                <div class="col-md-10">
+                    <button type="submit" class="btn btn-danger pull-right">Back</button>
+                </div>
+            </form>
+        </row>
+    </container>
+</div>

@@ -49,7 +49,8 @@ passport.deserializeUser(function(id, done) {
 passport.use(new LocalApiKeyStrategy({apiKeyHeader: "api_key"}, function(api_key, done) {
 	console.log("Checking validity of key " + api_key);
 	checkAPIKey(api_key, function(err, consumer){
-		if (err) { return done(null, false, {message: err.message}); }
+		console.log("Error is: " + JSON.stringify(err));
+		if (err) { return done(err); }
 		return done(null, consumer);
 	});
 }));
@@ -98,12 +99,15 @@ app.use(function (req, res, next) {
 	next();
 });
 
+
+
 app.use(session({
 	secret: 'this_is_a_nasty_secret',
 	saveUninitialized: true,
  	resave: true,
 	store: new MongoStore({mongooseConnection: mongoose.connection, 'db': 'sessions'}),
 	cookie : {
+		httpOnly: false,
 		maxAge : 604800 // one week
 	}
 }));
@@ -111,8 +115,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/../example'));
-
-
 
 // ==================  functions for retrieving provider information  ==================
 
@@ -151,8 +153,8 @@ function createAPIConsumer(query){
 function checkAPIKey(api_key, callback){
 	if(!api_key) {
 		callback({
-			status: 401,
-			error : "INVALID_KEY",
+			type: "KEY",
+			error : "INVALID",
 			message : "Not a valid API-key!"
 		});
 	}
@@ -165,23 +167,31 @@ function checkAPIKey(api_key, callback){
 		if(consumer) {
 			if(consumer.authorized) { return callback(null, consumer); }
 			return callback({
-				status: 401,
-				error : "KEY_NOT_ACTIVATED",
-				message : "Your API-key not activated yet!"
+				type: "KEY",
+				error : "NOT_ACTIVATED",
+				message : "Your API-key is not activated yet!"
 			});
 		}
 		return callback({
-			status: 401,
-			error : "KEY_NOT_REGISTERED",
-			message : "Your API-key not registered!"
+			type: "KEY",
+			error : "NOT_REGISTERED",
+			message : "Your API-key is not registered!"
 		});
 	});
 };
 
-var auth_local_api_key = passport.authenticate('localapikey', {
-	session : false,
-	apiKeyHeader: "api_key"
-});
+var auth_local_api_key = function(req, res, next){
+	passport.authenticate('localapikey', function(err, user, info){
+		if(err) {
+			res.status(401);
+			res.json(err);
+		} else {
+			next();
+		}
+	})(req, res, next);
+};
+
+
 
 var auth_local_pass = passport.authenticate('local');
 
@@ -334,15 +344,33 @@ app.get("/api/key/:api_key/authorized", function(req, res){
 
 
 app.get("/api/key", function(req, res){
-	console.log("Request for api-key..");
+	console.log("Request for api-key.. " + JSON.stringify(req.query));
+
 	var consumer = createAPIConsumer(req.query);
-	consumer.save(function(err, consumer){
-		if(err){
-			console.log(err);
-			return res.send(err);
+	console.log("Generated user " + JSON.stringify(consumer));
+
+	Consumer.findOne({email: consumer.email}, function (err, registeredConsumer) {
+		if(!registeredConsumer){
+			consumer.save(function(err, newConsumer){
+				if(err){
+					console.log(err);
+					res.status(500);
+					res.json({message: 'Database error!'});
+				} else {
+					res.send(newConsumer);
+				}
+			});
+		} else {
+			res.status(401);
+			var message = {
+				type: "EMAIL",
+				error : "DUPLICATE",
+				message : "Email '"+consumer.email+"' was already registered!"
+			};
+			res.json(message);
 		}
-		res.send(consumer);
 	});
+
 });
 
 // ==================== Admin methods ====================
@@ -372,7 +400,7 @@ app.post("/api/key/:api_key/update_authorized", UserAuthenticated, function(req,
 	});
 });
 
-// ==================  create admin-user if not exists  ==================
+// ==================  create admin-user  and insert example customer if not exists  ==================
 User.update({username: 'admin'}, {$set : {password: 'admin'}}, {upsert: true}, function(err){});
 var documeeExampleConsumer = {
 	company_name: 'documee',

@@ -2,57 +2,9 @@
     <div class="panel panel-primary">
         <div class="panel-heading">Register for API-key</div>
         <div class="panel-body">
-            <form class="form-horizontal" name="register_form" ng-submit="requestApiKey()" role="form">
-                <!-- Text input-->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="email">E-Mail</label>
-                    <div class="col-md-6">
-                        <input id="email" ng-model="email" type="text" placeholder="email" class="form-control input-md" required>
-                        <span class="help-block">e.g: mustermann@mail.com</span>
-                    </div>
-                </div>
-
-                <!-- Text input-->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="company_name">Company name</label>
-                    <div class="col-md-6">
-                        <input id="company_name" ng-model="company_name" type="text" placeholder="Name of your company" class="form-control input-md" required>
-                        <span class="help-block">e.g: MyCompany.inc</span>
-                    </div>
-                </div>
-
-                <!-- Text input-->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="project_name">Project name</label>
-                    <div class="col-md-6">
-                        <input id="project_name" ng-model="project_name" type="text" placeholder="Your project" class="form-control input-md" required>
-                        <span class="help-block">e.g: MyProject</span>
-                    </div>
-                </div>
-
-                <!-- Text input-->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="project_url">Project website</label>
-                    <div class="col-md-6">
-                        <input id="project_url" ng-model="project_url" type="text" placeholder="URL to your project" class="form-control input-md">
-                        <span class="help-block">e.g: http://myproject.com</span>
-                    </div>
-                </div>
-
-                <!-- Textarea -->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="project_description">Project description</label>
-                    <div class="col-md-6">
-                        <textarea class="form-control" id="project_description" ng-model="project_description" placeholder="Short description of your project"></textarea>
-                    </div>
-                </div>
-
-                <div class="form-actions">
-                    <div class="col-md-10">
-                        <button type="submit" ng-disabled="register_form.$invalid" class="btn btn-danger pull-right">Request API key</button>
-                    </div>
-                </div>
-            </form>
+            <div ng-if="!state" ng-include="'registration/views/partials/register-form.html'"></div>
+            <div ng-if="state === 'success'" ng-include="'registration/views/partials/success-form.html'"></div>
+            <div ng-if="state === 'error'" ng-include="'registration/views/partials/error-form.html'"></div>
         </div>
     </div>
 </div>

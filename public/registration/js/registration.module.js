@@ -1,4 +1,4 @@
-var app = angular.module('registration', ['registration.services', 'registration.controllers', 'registration.directives']);
+var module = angular.module('registration', ['ui.router', 'registration.services', 'registration.controllers', 'registration.directives']);
 
 
 

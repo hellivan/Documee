@@ -1,0 +1,37 @@
+<div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8">
+                <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                        <td><label class="control-label">E-Mail</label></td>
+                        <td>{{consumer.email}}</td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Company name</label></td>
+                        <td>{{consumer.company_name}}</td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">API-Key</label></td>
+                        <td>{{consumer.api_key}}</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <a ng-if="consumer.project.url" ng-href="{{consumer.project.url}}">Project {{consumer.project.name}}</a>
+                        <div ng-if="!consumer.project.url">Project {{consumer.project.name}}</div>
+                    </div>
+                    <div class="panel-body">
+                        <p>{{consumer.project.description}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -14,6 +14,7 @@ module.exports = function(mongoose){
         authorized: {type: Boolean, required: true}
     });
 
+
     consumerSchema.pre('save', function(next) {
         console.log("Executing pre-save!");
         if (this.isNew) {

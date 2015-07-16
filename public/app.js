@@ -1,4 +1,4 @@
-var app = angular.module('documee_api_access', ['ngRoute', 'ui.bootstrap', 'ui.router', 'registration']);
+var app = angular.module('documee_api_access', ['ngRoute', 'ui.bootstrap', 'ui.router', 'registration', 'validation']);
 
 app.config(['$routeProvider',
     function($routeProvider) {
@@ -8,8 +8,8 @@ app.config(['$routeProvider',
                 controller: 'registration.MainController'
             })
             .when('/checkKey', {
-                templateUrl: 'registration/views/check_key.html',
-                controller: 'registration.MainController'
+                templateUrl: 'validation/views/check_key.html',
+                controller: 'validation.MainController'
             })
             .otherwise({redirectTo: '/register'});
     }

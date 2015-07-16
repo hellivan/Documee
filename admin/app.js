@@ -37,11 +37,17 @@ app.config(['$routeProvider', '$httpProvider',
 
 
 app.run(
-    function ($rootScope, $location, $cookieStore, $http, AuthenticationService) {
+    function ($log, $rootScope, $location, $cookies, $http, AuthenticationService) {
         // keep user logged in after page refresh
         //AuthenticationService.restoreCredentials();
+        $log.debug("Stored cookies are: " + JSON.stringify($cookies.getAll()));
+        if($cookies.get('connect.sid')){
+            if(!$rootScope.globals){$rootScope.globals = {};}
+            $rootScope.globals.logged_in=true;
+        }
 
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
+
             // redirect to login page if not logged in
             if ($location.path() !== '/login' && (!$rootScope.globals || !$rootScope.globals.logged_in)) {
                 $location.path('/login');

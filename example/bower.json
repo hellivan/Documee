@@ -19,6 +19,8 @@
     "angular-bootstrap": "~0.13.0",
     "oauth-js": "~0.4.3",
     "angular-ui-router": "~0.2.15",
-    "angular-loading-bar": "~0.8.0"
+    "angular-loading-bar": "~0.8.0",
+    "angular-modal-service": "~0.6.6",
+    "jquery": "~2.1.4"
   }
 }

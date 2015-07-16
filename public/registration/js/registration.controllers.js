@@ -1,24 +1,31 @@
-var appControllers = angular.module('registration.controllers', ['registration.services', 'ui.bootstrap']);
+var appControllers = angular.module('registration.controllers', ['KeysServices', 'ui.bootstrap', 'ui.router']);
 
 appControllers.controller("registration.MainController",
-function ($scope, $location, $keys) {
+    function ($log, $scope, $location, $keys) {
 
-    $scope.state = undefined
 
-    $scope.requestApiKey = function(){
-        $keys.requestKey($scope.email, $scope.company_name, $scope.project_name, $scope.project_description, $scope.project_url, function(err, data){
-            if(err){ return console.log(err)};
-            console.log(data);
-        });
-    };
-});
+        $scope.state = undefined;
+        $scope.consumer = {};
 
-appControllers.controller("authentication.LoginBarController",
-function ($scope, $rootScope, $location, AuthenticationService) {
+        $scope.requestApiKey = function(){
+            $keys.requestKey( $scope.consumer, function(err, consumer){
+                if(err){
+                    $log.debug("An error occured:" + JSON.stringify(err));
+                    $scope.error = err;
+                    $scope.state = 'error';
+                } else {
+                    $log.debug(consumer);
+                    $scope.consumer = consumer;
+                    $scope.state = 'success';
+                }
+            });
+        };
 
-    $scope.logout = function(){
-        AuthenticationService.clearCredentials();
-        $location.path('/');
-    };
-    console.log("Loaded authentication.LoginBarController");
-});
+        $scope.back = function(){
+          delete $scope.state;
+        };
+
+        $log.debug("Loaded MainController");
+    });
+
+

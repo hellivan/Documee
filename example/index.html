@@ -8,17 +8,22 @@
     <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css">
     <link rel="stylesheet" href="style.css">
 
-    <script src="bower_components/angular/angular.min.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
-    <script src="bower_components/oauth-js/dist/oauth.min.js"></script>
-    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/oauth-js/dist/oauth.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
 
 
+    <script src="apitest/js/apitest.services.js"></script>
+    <script src="apitest/js/apitest.directives.js"></script>
+    <script src="apitest/js/apitest.controllers.js"></script>
+    <script src="apitest/js/apitest.module.js"></script>
 
     <script src="app.js"></script>
 </head>
-<body ng-controller="mainController">
+
+<body ng-controller="apitest.MainController">
 
 
     <nav class="navbar navbar-default">
@@ -28,14 +33,14 @@
                 <a class="navbar-brand" href="#/">Documee</a>
             </div>
 
-            <form class="navbar-form navbar-right" role="search" ng-submit="updateApiKey()">
-                <div class="input-group">
-                    <span class="input-group-addon">API-key</span>
-                    <input type="text" class="form-control" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" aria-describedby="basic-addon1" ng-model="api_key">
-                </div>
-                <button type="submit" class="btn btn-default">Update</button>
-            </form>
-
+            <ul class="nav navbar-nav navbar-right">
+                <li dropdown class="dropdown">
+                    <a dropdown-toggle href="" class="dropdown-toggle "> <p ng-class="keyStyle" tooltip-placement="bottom" tooltip="{{key_error}}"><strong>API-Key:</strong> {{api_key}} <span class="caret"></span></p> </a>
+                    <ul dropdown-menu class="dropdown-menu">
+                        <li><a href="" ng-click="showKeyDialog()">Change API-key</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </nav>
 
@@ -91,9 +96,6 @@
             </div>
         </div>
     </div>
-
-
-
 
 </body>
 </html>

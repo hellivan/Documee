@@ -5,19 +5,28 @@
         <title>Documee Register</title>
 
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css">
 
         <script src="bower_components/angular/angular.js"></script>
-        <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
         <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
         <script src="bower_components/angular-route/angular-route.js"></script>
+        <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
 
 
+
+        <script src="general/js/keys.services.js"></script>
 
         <script src="registration/js/registration.services.js"></script>
         <script src="registration/js/registration.directives.js"></script>
         <script src="registration/js/registration.controllers.js"></script>
         <script src="registration/js/registration.module.js"></script>
+
+        <script src="validation/js/validation.services.js"></script>
+        <script src="validation/js/validation.directives.js"></script>
+        <script src="validation/js/validation.controllers.js"></script>
+        <script src="validation/js/validation.module.js"></script>
 
         <script src="app.js"></script>
     </head>
@@ -32,7 +41,7 @@
 
                 <ul class="nav navbar-nav navbar-right">
                     <li dropdown class="dropdown">
-                        <a dropdown-toggle href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></a>
+                        <a dropdown-toggle href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">More <span class="caret"></span></a>
                         <ul dropdown-menu class="dropdown-menu">
                             <li><a href="#/register">Register for API-key</a></li>
                             <li><a href="#/checkKey">Check API-key</a></li>
@@ -41,6 +50,6 @@
                 </ul>
             </div>
         </nav>
-       <ng-view></ng-view>
+        <div ng-view></div>
     </body>
 </html>
