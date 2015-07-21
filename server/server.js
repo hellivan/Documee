@@ -7,8 +7,10 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var methodOverride = require('method-override');
 
-var twitter = require('./data_providers/twitter');
-var fb = require('./data_providers/facebook');
+var normalizer = require('./tools/normalization')();
+
+var twitter = require('./data_providers/twitter')(normalizer);
+var fb = require('./data_providers/facebook')(normalizer);
 
 var consumerModel = require('./models/consumer');
 var userModel = require('./models/user');
@@ -219,6 +221,19 @@ function parseFbOauth(headers){
 };
 
 
+var providers = {
+	facebook : {
+		getOauth : parseFbOauth,
+		getConfig : getFacebookConfig,
+		accessor : fb
+	},
+	twitter : {
+		getOauth : parseTwitterOauth,
+		getConfig : getTwitterConfig,
+		accessor : twitter
+	}
+}
+
 // ==================  configure routes  ==================
 var api_base_address = "/api/v0";
 
@@ -280,7 +295,7 @@ app.post(api_base_address + "/twitter/status",  function(req, res){
 
 app.get(api_base_address + "/fb/me",  function(req, res){
 	getFacebookConfig(function(config){
-		fb.getMe(config, parseFbOauth(req.headers), function(profile){
+		fb.getMe(config.oauth, parseFbOauth(req.headers), function(profile){
 			res.send(profile);
 		});
 	});
@@ -288,7 +303,7 @@ app.get(api_base_address + "/fb/me",  function(req, res){
 
 app.get(api_base_address + "/fb/friends",  function(req, res){
 	getFacebookConfig(function(config){
-		fb.getFriends(config, parseFbOauth(req.headers), function(friends){
+		fb.getFriends(config.oauth, parseFbOauth(req.headers), function(friends){
 			res.send(friends);
 		});
 	});
@@ -296,7 +311,7 @@ app.get(api_base_address + "/fb/friends",  function(req, res){
 
 app.get(api_base_address + "/fb/feeds",  function(req, res){
 	getFacebookConfig(function(config){
-		fb.getFeeds(config, parseFbOauth(req.headers), function(feeds){
+		fb.getFeeds(config.oauth, parseFbOauth(req.headers), function(feeds){
 			res.send(feeds);
 		});
 	});
@@ -304,7 +319,7 @@ app.get(api_base_address + "/fb/feeds",  function(req, res){
 
 app.get(api_base_address + "/fb/permissions",  function(req, res){
 	getFacebookConfig(function(config){
-		fb.getPermissions(config, parseFbOauth(req.headers), function(permissions){
+		fb.getPermissions(config.oauth, parseFbOauth(req.headers), function(permissions){
 			res.send(permissions);
 		});
 	});
@@ -312,7 +327,7 @@ app.get(api_base_address + "/fb/permissions",  function(req, res){
 
 app.delete(api_base_address + "/fb/permissions",  function(req, res){
 	getFacebookConfig(function(config){
-		fb.deletePermissions(config, parseFbOauth(req.headers), function(permissions){
+		fb.deletePermissions(config.oauth, parseFbOauth(req.headers), function(permissions){
 			res.send(permissions);
 		});
 	});
@@ -320,10 +335,103 @@ app.delete(api_base_address + "/fb/permissions",  function(req, res){
 
 app.post(api_base_address + "/fb/status",  function(req, res){
 	getFacebookConfig(function(config) {
-		fb.postStatus(config, parseFbOauth(req.headers), req.body.status, function(permissions){
+		fb.postStatus(config.oauth, parseFbOauth(req.headers), req.body.status, function(permissions){
 			res.send(permissions);
 		});
 	});
+});
+
+app.get(api_base_address + "/providers/me", function(req, res){
+	var tmpProviders = [];
+	if(typeof req.query.providers === 'string'){
+		tmpProviders.push(req.query.providers);
+	} else if(typeof req.query.providers === 'object'){
+		tmpProviders = req.query.providers;
+	}
+	var configurations = [];
+	var profiles = [];
+
+	var configurationCallback = function(done){
+		console.log("Providers " + tmpProviders + " still to process...");
+		if(tmpProviders.length > 0){
+			var provider = tmpProviders.shift();
+			if(providers[provider]){
+				console.log("Processing provider " + provider);
+				providers[provider].getConfig(function(config){
+					configurations.push(config);
+					configurationCallback(done);
+				});
+			} else {
+				console.log("Skipping provider " + provider);
+				configurationCallback(done);
+			}
+		} else {
+			done();
+		}
+	};
+
+	var dataCallback = function(){
+		if(configurations.length > 0){
+			var config = configurations.shift();
+			var provider = providers[config.provider_name];
+			provider.accessor.getMe(config.oauth, provider.getOauth(req.headers), function(profile){
+				profiles.push(profile);
+				dataCallback();
+			});
+		} else {
+
+			res.send(profiles);
+		}
+	};
+
+	configurationCallback(dataCallback);
+
+});
+
+app.get(api_base_address + "/providers/friends", function(req, res){
+	var tmpProviders = [];
+	if(typeof req.query.providers === 'string'){
+		tmpProviders.push(req.query.providers);
+	} else if(typeof req.query.providers === 'object'){
+		tmpProviders = req.query.providers;
+	}
+	var configurations = [];
+	var friends = [];
+
+	var configurationCallback = function(done){
+		console.log("Providers " + tmpProviders + " still to process...");
+		if(tmpProviders.length > 0){
+			var provider = tmpProviders.shift();
+			if(providers[provider]){
+				console.log("Processing provider " + provider);
+				providers[provider].getConfig(function(config){
+					configurations.push(config);
+					configurationCallback(done);
+				});
+			} else {
+				console.log("Skipping provider " + provider);
+				configurationCallback(done);
+			}
+		} else {
+			done();
+		}
+	};
+
+	var dataCallback = function(){
+		if(configurations.length > 0){
+			var config = configurations.shift();
+			var provider = providers[config.provider_name];
+			provider.accessor.getFriends(config.oauth, provider.getOauth(req.headers), function(providerFriends){
+				friends = friends.concat(providerFriends);
+				dataCallback();
+			});
+		} else {
+			res.send(friends);
+		}
+	};
+
+	configurationCallback(dataCallback);
+
 });
 
 

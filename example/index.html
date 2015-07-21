@@ -12,7 +12,10 @@
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/oauth-js/dist/oauth.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
 
 
     <script src="apitest/js/apitest.services.js"></script>
@@ -23,15 +26,21 @@
     <script src="app.js"></script>
 </head>
 
-<body ng-controller="apitest.MainController">
+<body >
 
 
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default" ng-controller="apitest.NavbarController">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <a class="navbar-brand" href="#/">Documee</a>
             </div>
+
+            <ul class="nav navbar-nav navbar-left">
+                <li ng-class="baseNavClass"><a href="#/base">Base</a></li>
+                <li ng-class="mixNavClass"><a href="#/mix">Mix</a></li>
+            </ul>
+
 
             <ul class="nav navbar-nav navbar-right">
                 <li dropdown class="dropdown">
@@ -44,58 +53,7 @@
         </div>
     </nav>
 
-    <div class="container-fluid">
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Facebook</div>
-                    <div class="panel-body">
-                        <div ng-hide="!auth.fb.authenticated">
-                            <ul>
-                                <li ng-repeat="state in fbstate.states">
-                                    <a href="" ng-click="switchFbState(state)">{{state.description}}</a>
-                                </li>
-                            </ul>
-                            <div ng-repeat="state in fbstate.states">
-                                <div ng-if="fbstate.current==state.name" ng-include="state.template"></div>
-                            </div>
-                        </div>
-
-                        <div ng-hide="auth.fb.authenticated">
-                            <button type="button" ng-click="loginFacebook()" class="btn btn-default navbar-btn">
-                                Login
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Twitter</div>
-                    <div class="panel-body">
-                        <div ng-hide="!auth.twitter.authenticated">
-                            <ul>
-                                <li ng-repeat="state in twitterstate.states">
-                                    <a href="" ng-click="switchTwitterState(state)">{{state.description}}</a>
-                                </li>
-                            </ul>
-                            <div ng-repeat="state in twitterstate.states">
-                                <div ng-if="twitterstate.current==state.name" ng-include="state.template"></div>
-                            </div>
-                        </div>
-
-                        <div ng-hide="auth.twitter.authenticated">
-                            <button type="button" ng-click="loginTwitter()" class="btn btn-default navbar-btn">
-                                Login
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <ng-view></ng-view>
 
 </body>
 </html>

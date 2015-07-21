@@ -1,7 +1,83 @@
 var appControllers = angular.module('apitest.controllers', ['apitest.services', 'ui.bootstrap']);
 
 
-appControllers.controller("apitest.MainController", function ($http, $scope, $rootScope, $modal) {
+appControllers.controller("apitest.MixController", function ($log, $http, $scope, $rootScope, $authentication, $apiKey) {
+    var api_base_address = "http://localhost:8000/api/v0/";
+
+    $scope.providers = ['facebook', 'twitter'];
+    $scope.useProvider = {};
+
+
+    $scope.isAuthenticated = function(provider){
+        return $authentication.isAuthenticated(provider);
+    }
+
+    $scope.progState = {
+        states : [
+            {
+                name: 'get_me',
+                description: 'Fetch profile-infos',
+                api : {
+                    method : 'get',
+                    call : api_base_address + 'providers/me'
+                },
+                template : 'partials/mixed/user-profile.html'
+            },
+            {
+                name: 'get_friends',
+                description: 'Fetch friends',
+                api : {
+                    method : 'get',
+                    call : api_base_address + 'providers/friends'
+                },
+                template : 'partials/mixed/friends-list.html'
+            },
+        ],
+        current : undefined
+    };
+
+    $scope.switchState = function(newState){
+        $scope.data = undefined;
+        $scope.progState.current = undefined;
+
+        if(newState){
+            if(newState.api){
+                var queryProviders = [];
+
+                $scope.providers.forEach(function(provider){
+                    if($scope.isAuthenticated(provider) && $scope.useProvider[provider]){
+                        queryProviders.push(provider);
+                    }
+                });
+                $log.debug(queryProviders);
+
+                $http[newState.api.method](newState.api.call, {params: {providers:queryProviders}}).
+                    success(function(data, status, headers, config) {
+                        $log.debug("Success: " + JSON.stringify(data));
+                        $scope.data = data;
+                        $scope.progState.current = newState.name;
+                        $apiKey.setError();
+                    }).
+                    error(function(data, status, headers, config) {
+                        $log.debug("Error: " + JSON.stringify(data));
+                        if(status === 401){
+                            if(data.type === "KEY"){
+                                $apiKey.setError(data.message);
+                            }
+                        }
+                    });
+            } else if(newState.template) {
+                $scope.progState.current = newState.name;
+            }
+        }
+    };
+
+
+    $log.debug("Loaded apitest.MixController");
+});
+
+
+appControllers.controller("apitest.BaseController", function ($log, $http, $scope, $rootScope, $authentication, $apiKey) {
     var api_base_address = "http://localhost:8000/api/v0/";
     OAuth.initialize("U7oog1cN5o_ZsjeoQ_rPOxbFaKA");
 
@@ -125,16 +201,16 @@ appControllers.controller("apitest.MainController", function ($http, $scope, $ro
             if(state.api){
                 $http[state.api.method](state.api.call).
                     success(function(data, status, headers, config) {
-                        console.log("Success: " + JSON.stringify(data));
+                        $log.debug("Success: " + JSON.stringify(data));
                         $scope.data_fb = data;
                         $scope.fbstate.current = state.name;
-                        setKeyError();
+                        $apiKey.setError();
                     }).
                     error(function(data, status, headers, config) {
-                        console.log("Error: " + JSON.stringify(data));
+                        $log.debug("Error: " + JSON.stringify(data));
                         if(status === 401){
                             if(data.type === "KEY"){
-                                setKeyError(data.message);
+                                $apiKey.setError(data.message);
                             }
                         }
                     });
@@ -152,13 +228,13 @@ appControllers.controller("apitest.MainController", function ($http, $scope, $ro
             if(state.api){
                 $http[state.api.method](state.api.call).
                     success(function(data, status, headers, config) {
-                        console.log(data);
+                        $log.debug(data);
                         $scope.data_twitter = data;
                         $scope.twitterstate.current = state.name;
                         setKeyError();
                     }).
                     error(function(data, status, headers, config) {
-                        console.log("Error: " + data);
+                        $log.debug("Error: " + data);
                         if(status === 401){
                             if(data.type === "KEY"){
                                 setKeyError(data.message);
@@ -171,65 +247,80 @@ appControllers.controller("apitest.MainController", function ($http, $scope, $ro
         }
     };
 
-    $scope.auth = {};
-
-    $scope.auth.fb ={
-        authenticated : false,
-        credentials : {}
-    };
-
-    $scope.auth.twitter ={
-        authenticated : false,
-        credentials : {}
-    };
-
-
-    function setKeyError(message){
-        $rootScope.key_error = message;
-        if(message){
-            $rootScope.keyStyle = "red";
-        } else {
-            delete $rootScope.keyStyle;
-        }
-    }
-
-    function set_fb_credentials(access_token){
-        $scope.auth.fb.authenticated = true;
-        $scope.auth.fb.credentials.access_token = access_token;
-        $http.defaults.headers.common.fb_access_token = access_token;
-    }
-
-    function set_twitter_credentials(oauth_token, oauth_token_secret){
-        $scope.auth.twitter.authenticated = true;
-        $scope.auth.twitter.credentials.oauth_token = oauth_token;
-        $scope.auth.twitter.credentials.oauth_token_secret = oauth_token_secret;
-        $http.defaults.headers.common.twitter_oauth_token = oauth_token;
-        $http.defaults.headers.common.twitter_oauth_token_secret = oauth_token_secret;
-    }
-
-    function updateApiKey (api_key){
-        $scope.api_key = api_key;
-        $http.defaults.headers.common.api_key = $scope.api_key;
-    };
 
     $scope.loginTwitter = function(){
         OAuth.popup('twitter', {cache: false}).done(function(result) {
-            console.log("Authenticated with twitter");
-            console.log(result);
-            set_twitter_credentials(result.oauth_token, result.oauth_token_secret);
-            $rootScope.$apply();
+            $log.debug("Authenticated with twitter");
+            $log.debug(result);
+            $authentication.setCredentials('twitter', {
+                oauth_token: result.oauth_token,
+                oauth_token_secret: result.oauth_token_secret
+            }, true, true);
         });
     };
 
     $scope.loginFacebook = function(){
         OAuth.popup('facebook', {cache: false}).done(function(result) {
-            console.log("Authenticated with facebook");
-            console.log(result);
-            set_fb_credentials(result.access_token);
-            $rootScope.$apply();
+            $log.debug("Authenticated with facebook");
+            $log.debug(result);
+            $authentication.setCredentials('facebook', {
+                access_token: result.access_token,
+                token_type: result.token_type,
+                expires_in: result.expires_in
+            }, true, true);
         });
     };
 
+    $log.debug("Started controller apitest.BaseController")
+});
+
+appControllers.controller("apitest.PostFbStatusController", function($http, $scope, $apiKey){
+    var api_base_address = "http://localhost:8000/api/v0/"
+
+    $scope.status = undefined;
+
+    $scope.postStatus = function(){
+        $http.post(api_base_address + "fb/status", {status: $scope.status}).
+            success(function(data, status, headers, config) {
+                console.log(data);
+                $scope.status = undefined;
+                $apiKey.setError();
+            }).
+            error(function(data, status, headers, config) {
+                console.log("Error: " + data);
+                if(status === 401){
+                    if(data.type === "KEY"){
+                        $apiKey.setError(data.message);
+                    }
+                }
+            });
+    };
+});
+
+appControllers.controller("apitest.PostTwitterStatusController", function($http, $scope, $apiKey ){
+    var api_base_address = "http://localhost:8000/api/v0/"
+
+    $scope.status = undefined;
+
+    $scope.postStatus = function(){
+        $http.post(api_base_address + "twitter/status", {status: $scope.status}).
+            success(function(data, status, headers, config) {
+                console.log(data);
+                $scope.status = undefined;
+                $apiKey.setError();
+            }).
+            error(function(data, status, headers, config) {
+                console.log("Error: " + data);
+                if(status === 401){
+                    if(data.type === "KEY"){
+                        $apiKey.setError(data.message);
+                    }
+                }
+            });
+    };
+});
+
+appControllers.controller('apitest.NavbarController', function($scope, $http, $rootScope, $modal){
     $scope.showKeyDialog = function(size){
         var modalInstance = $modal.open({
             animation: true,
@@ -238,7 +329,7 @@ appControllers.controller("apitest.MainController", function ($http, $scope, $ro
             size: size,
             resolve: {
                 api_key: function () {
-                    return $scope.api_key;
+                    return $rootScope.api_key;
                 }
             }
         });
@@ -251,53 +342,12 @@ appControllers.controller("apitest.MainController", function ($http, $scope, $ro
 
     };
 
+    function updateApiKey (api_key){
+        $rootScope.api_key = api_key;
+        $http.defaults.headers.common.api_key = api_key;
+    };
+
     updateApiKey("a43d4cda-fecf-44e6-b351-71f6ffc1f7f7");
-});
-
-appControllers.controller("PostFbStatusController", function($http, $scope){
-    var api_base_address = "http://localhost:8000/api/v0/"
-
-    $scope.status = undefined;
-
-    $scope.postStatus = function(){
-        $http.post(api_base_address + "fb/status", {status: $scope.status}).
-            success(function(data, status, headers, config) {
-                console.log(data);
-                $scope.status = undefined;
-                setKeyError();
-            }).
-            error(function(data, status, headers, config) {
-                console.log("Error: " + data);
-                if(status === 401){
-                    if(data.type === "KEY"){
-                        setKeyError(data.message);
-                    }
-                }
-            });
-    };
-});
-
-appControllers.controller("PostTwitterStatusController", function($http, $scope ){
-    var api_base_address = "http://localhost:8000/api/v0/"
-
-    $scope.status = undefined;
-
-    $scope.postStatus = function(){
-        $http.post(api_base_address + "twitter/status", {status: $scope.status}).
-            success(function(data, status, headers, config) {
-                console.log(data);
-                $scope.status = undefined;
-                setKeyError();
-            }).
-            error(function(data, status, headers, config) {
-                console.log("Error: " + data);
-                if(status === 401){
-                    if(data.type === "KEY"){
-                        setKeyError(data.message);
-                    }
-                }
-            });
-    };
 });
 
 

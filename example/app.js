@@ -1,6 +1,18 @@
-var app = angular.module('documee_demo', ['angular-loading-bar', 'ui.bootstrap', 'ui.router', 'apitest']);
+var app = angular.module('documee_demo', ['angular-loading-bar', 'ui.bootstrap', 'ui.router', 'apitest', 'ngRoute', 'LocalStorageModule']);
 
-app.config(['cfpLoadingBarProvider', '$httpProvider', function(cfpLoadingBarProvider, $httpProvider) {
+app.config(['cfpLoadingBarProvider', '$httpProvider', '$routeProvider', 'localStorageServiceProvider', function(cfpLoadingBarProvider, $httpProvider, $routeProvider, localStorageServiceProvider) {
+    $routeProvider
+        .when('/base', {
+            templateUrl: 'apitest/views/api-test-base.html',
+            controller: 'apitest.BaseController'
+        })
+        .when('/mix', {
+            templateUrl: 'apitest/views/api-test-mix.html',
+            controller: 'apitest.MixController'
+        })
+        .otherwise({redirectTo: '/base'});
+
+
     cfpLoadingBarProvider.includeSpinner = false;
     cfpLoadingBarProvider.includeBar = true;
 
@@ -16,8 +28,15 @@ app.config(['cfpLoadingBarProvider', '$httpProvider', function(cfpLoadingBarProv
             }
         };
     });
+
+    localStorageServiceProvider.setPrefix('ls');
   }]);
 
+
+app.run(
+    function ($log, $rootScope, $location, $cookies, $authentication) {
+        $authentication.restoreCredentials();
+    });
 
 
 

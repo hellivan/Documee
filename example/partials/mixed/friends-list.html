@@ -1,0 +1,24 @@
+<div class="jumbotron text-center">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8">
+                <div class="jumbotron text-center">
+                    <h2>Found <span class="box label label-info">{{ data.length }}</span> friends</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="friend in data">
+            <div class="row">
+                <div class="col-md-1">
+                    <img class="img-circle" ng-src="{{friend.picture}}"/>
+                </div>
+                <div class="col-md-11 text-left" >
+                    <h4>{{friend.name}} @{{friend.provider}}</h4>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,74 @@
+<div class="container-fluid">
+    <div ng-repeat="profile in data" class="row">
+        <div class=" col-md-offset-2 col-md-8" >
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{profile.name}}@{{profile.provider}}</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 " align="center">
+                            <img alt="User Pic" ng-src="{{profile.picture}}" class="img-circle">
+                        </div>
+
+                        <div class="col-md-9 col-lg-9 ">
+                            <table class="table table-user-information">
+                                <tbody>
+                                <tr ng-if="profile.id">
+                                    <td>User ID</td>
+                                    <td>{{profile.id}}</td>
+                                </tr>
+                                <tr ng-if="profile.first_name">
+                                    <td>First name</td>
+                                    <td>{{profile.first_name}}</td>
+                                </tr>
+                                <tr ng-if="profile.last_name">
+                                    <td>Last name</td>
+                                    <td>{{profile.last_name}}</td>
+                                </tr>
+                                <tr ng-if="profile.screen_name">
+                                    <td>Screen name</td>
+                                    <td>{{profile.screen_name}}</td>
+                                </tr>
+                                <tr ng-if="profile.email">
+                                    <td>Email</td>
+                                    <td><a ng-href="{{profile.email}}">{{profile.email}}</a></td>
+                                </tr>
+                                <tr ng-if="profile.birthday">
+                                    <td>Birthday</td>
+                                    <td>{{profile.birthday}}</td>
+                                </tr>
+                                <tr ng-if="profile.gender">
+                                    <td>Gender</td>
+                                    <td>{{profile.gender}}</td>
+                                </tr>
+                                <tr ng-if="profile.followers_count">
+                                    <td>Followers</td>
+                                    <td>{{profile.followers_count}}</td>
+                                </tr>
+                                <tr ng-if="profile.following_count">
+                                    <td>Following</td>
+                                    <td>{{profile.following_count}}</td>
+                                </tr>
+                                <tr ng-if="profile.language">
+                                    <td>Language</td>
+                                    <td>{{profile.language}}</td>
+                                </tr>
+                                <tr ng-if="profile.registration_date">
+                                    <td>Joined Twitter</td>
+                                    <td>{{profile.registration_date}}</td>
+                                </tr>
+                                <tr ng-if="profile.link">
+                                    <td>Profile</td>
+                                    <td><a ng-href="{{profile.link}}">{{profile.provider}}</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
