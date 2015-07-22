@@ -1,12 +1,11 @@
-var appServices = angular.module('authentication.services', []);
+var appServices = angular.module('authentication.services', ['DocumeeServices']);
 
 appServices.factory("AuthenticationService",
-function($http, $rootScope){
+function($http, $rootScope, $documeeApi){
     var service = {};
-    var api_base_address = "http://localhost:8000/";
 
     service.login = function (username, password, callback){
-        $http.post(api_base_address + 'api/authenticate', { username: username, password: password })
+        $http.post($documeeApi.hostAddress + 'api/authenticate', { username: username, password: password })
         .success(function (data, status, headers, config) {
             callback(null, data);
         })

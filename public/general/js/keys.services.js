@@ -1,9 +1,8 @@
-var appServices = angular.module('KeysServices', []);
+var appServices = angular.module('KeysServices', ['DocumeeServices']);
 
 appServices.factory('$keys',
-    function($log, $http){
+    function($log, $http, $documeeApi){
         var service = {};
-        var api_base_address = "http://localhost:8000/";
 
         service.requestKey = function (consumer, callback){
             var params = {
@@ -14,7 +13,7 @@ appServices.factory('$keys',
                 project_url : consumer.project_url
             };
 
-            $http.get(api_base_address + "api/key", {params: params}).
+            $http.get($documeeApi.hostAddress + "api/key", {params: params}).
                 success(function(data, status, headers, config) {
                     $log.debug("Success!" + status);
                     callback(null, data);
@@ -26,7 +25,7 @@ appServices.factory('$keys',
         };
 
         service.checkKey = function(api_key, callback){
-            $http.get(api_base_address + "api/key/" + api_key +"/authorized").
+            $http.get($documeeApi.hostAddress + "api/key/" + api_key +"/authorized").
                 success(function(data, status, headers, config) {
                     callback(null, data);
                 }).

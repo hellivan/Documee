@@ -1,7 +1,7 @@
-var app = angular.module('documee_api_access', ['ngRoute', 'ui.bootstrap', 'ui.router', 'registration', 'validation']);
+var app = angular.module('documee_api_access', ['ngRoute', 'ui.bootstrap', 'ui.router', 'registration', 'validation', 'DocumeeServices']);
 
-app.config(['$routeProvider',
-    function($routeProvider) {
+app.config(['$routeProvider', '$documeeApiProvider',
+    function($routeProvider, $documeeApiProvider) {
         $routeProvider
             .when('/register', {
                 templateUrl: 'registration/views/registration.html',
@@ -12,8 +12,9 @@ app.config(['$routeProvider',
                 controller: 'validation.MainController'
             })
             .otherwise({redirectTo: '/register'});
-    }
-]);
+
+        $documeeApiProvider.setHostAddress("http://localhost:8000/");
+    }]);
 
 
 

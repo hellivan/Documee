@@ -1,8 +1,8 @@
-var app = angular.module('documee_admin', ['ngCookies', 'ui.bootstrap', 'ui.router', 'ngRoute', 'angularMoment', 'authentication', 'consumers']);
+var app = angular.module('documee_admin', ['ngCookies', 'ui.bootstrap', 'ui.router', 'ngRoute', 'angularMoment', 'authentication', 'consumers', 'DocumeeServices']);
 
 
-app.config(['$routeProvider', '$httpProvider',
-    function($routeProvider, $httpProvider) {
+app.config(['$routeProvider', '$httpProvider', '$documeeApiProvider',
+    function($routeProvider, $httpProvider, $documeeApiProvider) {
         $routeProvider
             .when('/login', {
                 templateUrl: 'authentication/views/login.html',
@@ -32,6 +32,8 @@ app.config(['$routeProvider', '$httpProvider',
                 }
             };
         });
+
+        $documeeApiProvider.setHostAddress("http://localhost:8000/");
     }
 ]);
 

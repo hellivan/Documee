@@ -1,14 +1,13 @@
-var appServices = angular.module('consumers.services', []);
+var appServices = angular.module('consumers.services', ['DocumeeServices']);
 
 
 appServices.factory('$consumers',
-function($http){
+function($http, $documeeApi){
     var service = {};
-    var api_base_address = "http://localhost:8000/";
 
 
     service.get = function(callback){
-        $http.get(api_base_address + "api/consumers").
+        $http.get($documeeApi.hostAddress + "api/consumers").
             success(function(data, status, headers, config) {
                 callback(null, data);
             }).
@@ -18,7 +17,7 @@ function($http){
     };
 
     service.changeAuthorized = function(consumer, callback){
-        $http.post(api_base_address + "api/key/" + consumer.api_key + "/update_authorized", {authorized : consumer.authorized}).
+        $http.post($documeeApi.hostAddress + "api/key/" + consumer.api_key + "/update_authorized", {authorized : consumer.authorized}).
             success(function(data, status, headers, config) {
                 callback(null, data);
             }).

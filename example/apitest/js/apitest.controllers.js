@@ -1,8 +1,7 @@
-var appControllers = angular.module('apitest.controllers', ['apitest.services', 'ui.bootstrap']);
+var appControllers = angular.module('apitest.controllers', ['apitest.services', 'ui.bootstrap', 'DocumeeServices']);
 
 
-appControllers.controller("apitest.MixController", function ($log, $http, $scope, $rootScope, $authentication, $apiKey) {
-    var api_base_address = "http://localhost:8000/api/v0/";
+appControllers.controller("apitest.MixController", function ($log, $http, $scope, $rootScope, $authentication, $apiKey, $documeeApi) {
 
     $scope.providers = ['facebook', 'twitter'];
     $scope.useProvider = {};
@@ -19,7 +18,7 @@ appControllers.controller("apitest.MixController", function ($log, $http, $scope
                 description: 'Fetch profile-infos',
                 api : {
                     method : 'get',
-                    call : api_base_address + 'providers/me'
+                    call : $documeeApi.baseAddress + 'providers/me'
                 },
                 template : 'partials/mixed/user-profile.html'
             },
@@ -28,7 +27,7 @@ appControllers.controller("apitest.MixController", function ($log, $http, $scope
                 description: 'Fetch friends',
                 api : {
                     method : 'get',
-                    call : api_base_address + 'providers/friends'
+                    call : $documeeApi.baseAddress + 'providers/friends'
                 },
                 template : 'partials/mixed/friends-list.html'
             },
@@ -77,8 +76,7 @@ appControllers.controller("apitest.MixController", function ($log, $http, $scope
 });
 
 
-appControllers.controller("apitest.BaseController", function ($log, $http, $scope, $rootScope, $authentication, $apiKey) {
-    var api_base_address = "http://localhost:8000/api/v0/";
+appControllers.controller("apitest.BaseController", function ($log, $http, $scope, $rootScope, $authentication, $apiKey, $documeeApi) {
     OAuth.initialize("U7oog1cN5o_ZsjeoQ_rPOxbFaKA");
 
     $scope.fbstate = {
@@ -88,7 +86,7 @@ appControllers.controller("apitest.BaseController", function ($log, $http, $scop
                 description: 'Fetch all app-permissions',
                 api : {
                     method : 'get',
-                    call : api_base_address + 'fb/permissions'
+                    call : $documeeApi.baseAddress + 'fb/permissions'
                 },
                 template : 'partials/facebook/permissions-list.html'
             },
@@ -97,7 +95,7 @@ appControllers.controller("apitest.BaseController", function ($log, $http, $scop
                 description: 'Delete all Facebook app-permissions',
                 api : {
                     method : 'delete',
-                    call : api_base_address + 'fb/permissions'
+                    call : $documeeApi.baseAddress + 'fb/permissions'
                 }
             },
             {
@@ -105,7 +103,7 @@ appControllers.controller("apitest.BaseController", function ($log, $http, $scop
                 description: 'Fetch tagable friends from Facebook',
                 api : {
                     method : 'get',
-                    call : api_base_address + 'fb/friends'
+                    call : $documeeApi.baseAddress + 'fb/friends'
                 },
                 template : 'partials/facebook/friends-list.html'
             },
@@ -114,7 +112,7 @@ appControllers.controller("apitest.BaseController", function ($log, $http, $scop
                 description: 'Fetch profile-infos from Facebook',
                 api : {
                     method : 'get',
-                    call : api_base_address + 'fb/me'
+                    call : $documeeApi.baseAddress + 'fb/me'
                 },
                 template : 'partials/facebook/user-profile.html'
             },
@@ -123,7 +121,7 @@ appControllers.controller("apitest.BaseController", function ($log, $http, $scop
                 description: 'Fetch latest feeds on Facebook',
                 api : {
                     method : 'get',
-                    call : api_base_address + 'fb/feeds'
+                    call : $documeeApi.baseAddress + 'fb/feeds'
                 },
                 template : 'partials/facebook/feeds-list.html'
             },
@@ -144,7 +142,7 @@ appControllers.controller("apitest.BaseController", function ($log, $http, $scop
                 description: 'Fetch friends on twitter',
                 api : {
                     method : 'get',
-                    call : api_base_address + 'twitter/friends'
+                    call : $documeeApi.baseAddress + 'twitter/friends'
                 },
                 template : 'partials/twitter/friends-list.html'
             },
@@ -153,7 +151,7 @@ appControllers.controller("apitest.BaseController", function ($log, $http, $scop
                 description: 'Fetch people following on twitter',
                 api : {
                     method : 'get',
-                    call : api_base_address + 'twitter/following'
+                    call : $documeeApi.baseAddress + 'twitter/following'
                 },
                 template : 'partials/twitter/friends-list.html'
             },
@@ -162,7 +160,7 @@ appControllers.controller("apitest.BaseController", function ($log, $http, $scop
                 description: 'Fetch followers on twitter',
                 api : {
                     method : 'get',
-                    call : api_base_address + 'twitter/followers'
+                    call : $documeeApi.baseAddress + 'twitter/followers'
                 },
                 template : 'partials/twitter/friends-list.html'
             },
@@ -171,7 +169,7 @@ appControllers.controller("apitest.BaseController", function ($log, $http, $scop
                 description: 'Fetch top 10 trends on twitter',
                 api : {
                     method : 'get',
-                    call : api_base_address + 'twitter/trends'
+                    call : $documeeApi.baseAddress + 'twitter/trends'
                 },
                 template : 'partials/twitter/trends-list.html'
             },
@@ -180,7 +178,7 @@ appControllers.controller("apitest.BaseController", function ($log, $http, $scop
                 description : 'Fetch user information on twitter',
                 api : {
                     method : 'get',
-                    call : api_base_address + 'twitter/me'
+                    call : $documeeApi.baseAddress + 'twitter/me'
                 },
                 template : 'partials/twitter/user-profile.html'
             },
@@ -274,13 +272,12 @@ appControllers.controller("apitest.BaseController", function ($log, $http, $scop
     $log.debug("Started controller apitest.BaseController")
 });
 
-appControllers.controller("apitest.PostFbStatusController", function($http, $scope, $apiKey){
-    var api_base_address = "http://localhost:8000/api/v0/"
+appControllers.controller("apitest.PostFbStatusController", function($http, $scope, $apiKey, $documeeApi){
 
     $scope.status = undefined;
 
     $scope.postStatus = function(){
-        $http.post(api_base_address + "fb/status", {status: $scope.status}).
+        $http.post($documeeApi.baseAddress + "fb/status", {status: $scope.status}).
             success(function(data, status, headers, config) {
                 console.log(data);
                 $scope.status = undefined;
@@ -297,13 +294,12 @@ appControllers.controller("apitest.PostFbStatusController", function($http, $sco
     };
 });
 
-appControllers.controller("apitest.PostTwitterStatusController", function($http, $scope, $apiKey ){
-    var api_base_address = "http://localhost:8000/api/v0/"
+appControllers.controller("apitest.PostTwitterStatusController", function($http, $scope, $apiKey, $documeeApi){
 
     $scope.status = undefined;
 
     $scope.postStatus = function(){
-        $http.post(api_base_address + "twitter/status", {status: $scope.status}).
+        $http.post($documeeApi.baseAddress + "twitter/status", {status: $scope.status}).
             success(function(data, status, headers, config) {
                 console.log(data);
                 $scope.status = undefined;
