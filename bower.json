@@ -1,0 +1,32 @@
+{
+  "name": "example",
+  "version": "0.0.0",
+  "authors": [
+    "Ivan Hell <hell.ivan@yahoo.com>"
+  ],
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "latest",
+    "bootstrap": "latest",
+    "angular-bootstrap": "latest",
+    "momentjs": "latest",
+    "angular-moment": "latest",
+    "angular-base64": "latest",
+    "oauth-js": "latest",
+    "angular-ui-router": "latest",
+    "angular-loading-bar": "latest",
+    "angular-modal-service": "latest",
+    "jquery": "latest",
+    "angular-route": "latest",
+    "angular-cookies": "latest",
+    "angular-local-storage": "latest"
+  }
+}
