@@ -1,49 +1,99 @@
-<div class="container-fluid">
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Facebook</div>
-                <div class="panel-body">
-                    <div ng-hide="!auth.facebook.authenticated">
-                        <ul>
-                            <li ng-repeat="state in fbstate.states">
-                                <a href="" ng-click="switchFbState(state)">{{state.description}}</a>
-                            </li>
-                        </ul>
-                        <div ng-repeat="state in fbstate.states">
-                            <div ng-if="fbstate.current==state.name" ng-include="state.template"></div>
-                        </div>
+                <div ng-hide="!auth.facebook.authenticated">
+                    <div class="code-box">
+                        <p>Vorschau welche Queries ausgeführt werden<p>
+                        <pre>Query kommt hier hin</pre>
                     </div>
+                </div>
 
-                    <div ng-hide="auth.facebook.authenticated">
-                        <button type="button" ng-click="loginFacebook()" class="btn btn-default navbar-btn">
-                            Login
-                        </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="item">
+                    <div class="item-row">
+
+                            <div ng-hide="!auth.facebook.authenticated">
+
+                                <i class="fa fa-facebook"></i>
+
+                                <div class="item-content">
+                                    <ul>
+                                        <li ng-repeat="state in fbstate.states">
+                                            <a href="" ng-click="switchFbState(state)">{{state.description}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div ng-repeat="state in fbstate.states">
+                                    <div ng-if="fbstate.current==state.name" ng-include="state.template"></div>
+                                </div>
+
+                            </div>
+
+                            <div ng-hide="auth.fb.authenticated">
+                                <div class="item-top">
+                                    <a href="" ng-click="loginFacebook()"><i class="fa fa-facebook"></i></a>
+                                    <p>Autorisieren</p>
+                                </div>
+                            </div>
+
                     </div>
-
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Twitter</div>
-                <div class="panel-body">
-                    <div ng-hide="!auth.twitter.authenticated">
-                        <ul>
-                            <li ng-repeat="state in twitterstate.states">
-                                <a href="" ng-click="switchTwitterState(state)">{{state.description}}</a>
-                            </li>
-                        </ul>
-                        <div ng-repeat="state in twitterstate.states">
-                            <div ng-if="twitterstate.current==state.name" ng-include="state.template"></div>
-                        </div>
-                    </div>
+    </div>
+</div>
 
-                    <div ng-hide="auth.twitter.authenticated">
-                        <button type="button" ng-click="loginTwitter()" class="btn btn-default navbar-btn">
-                            Login
-                        </button>
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+
+                <div ng-hide="!auth.twitter.authenticated">
+                    <div class="code-box">
+                        <p>Vorschau welche Queries ausgeführt werden<p>
+                        <pre>Query kommt hier hin</pre>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="item">
+                    <div class="item-row">
+
+
+                        <div ng-hide="!auth.twitter.authenticated">
+
+                            <i class="fa fa-twitter"></i>
+
+                            <div class="item-content">
+                                <ul>
+                                    <li ng-repeat="state in twitterstate.states">
+                                        <a href="" ng-click="switchTwitterState(state)">{{state.description}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div ng-repeat="state in switchTwitterState(state)">
+                                <div ng-if="twitterstate.current==state.name" ng-include="state.template"></div>
+                            </div>
+
+                        </div>
+
+                        <div ng-hide="auth.twitter.authenticated">
+                            <div class="item-top">
+                                <a href="" ng-click="loginTwitter()"><i class="fa fa-twitter"></i></a>
+                                <p>Autorisieren</p>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

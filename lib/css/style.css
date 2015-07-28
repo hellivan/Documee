@@ -1,0 +1,414 @@
+/******************************************************************************************
+/*  Import styles */
+/******************************************************************************************/
+/* =======  variables  ========  */
+/* =======  mixins  ========  */
+/*
+BASE (MOBILE) SIZE
+This are the mobile styles. It's what people see on their phones. If
+you set a great foundation, you won't need to add too many styles in
+the other stylesheets. Remember, keep it light: Speed is Important.
+*/
+/* ============================== */
+/*		    General styles 			    */
+/* ============================== */
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\000034}}
+html {
+  height: 100%;
+  font-size: 16px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\000039}}
+body {
+  background-color: #fff;
+  color: #818c98;
+  font-family: "Varela Round", sans-serif;
+  font-size: 1em;
+  line-height: 1.750;
+  height: 100%; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\0000318}}
+h1 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2.5em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\0000323}}
+h2 {
+  color: #fff;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.250em;
+  font-weight: 700;
+  text-transform: uppercase; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\0000331}}
+h3 {
+  color: #3b475f;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.250em;
+  font-weight: 400; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\0000338}}
+p {
+  color: #818c98;
+  line-height: 1.750; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\0000343}}
+.img-responsive {
+  max-width: 100% !important; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\0000347}}
+ul,
+li {
+  list-style: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\0000351}}
+a:hover {
+  text-decoration: none !important; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\0000354}}
+a:focus,
+a:active {
+  outline: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\0000358}}
+.col-centered {
+  float: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\0000361}}
+.row-centered {
+  text-align: center; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\0000370}}
+#intro-section {
+  color: rgba(255, 255, 255, 0.4);
+  font-family: "Montserrat", sans-serif;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 700px;
+  padding: 20px 0 135px;
+  line-height: 2.500; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\0000379}}
+  #intro-section .overlay {
+    background-color: rgba(25, 33, 50, 0.92);
+    position: absolute;
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 0;
+    width: 100%;
+    height: 100%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\0000386}}
+  #intro-section .main-intro {
+    text-align: center;
+    margin-bottom: 10%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\0000389}}
+    #intro-section .main-intro h1 {
+      color: #fff;
+      font-weight: 700;
+      margin-top: 20px;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      font-size: 1.5em; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\0000397}}
+    #intro-section .main-intro .medium-text {
+      font-weight: 700;
+      font-size: 1.000em;
+      text-transform: uppercase;
+      color: #818c98;
+      display: inline-block; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003104}}
+    #intro-section .main-intro .small-text {
+      font-weight: 700;
+      font-size: 0.950em;
+      width: 100%;
+      text-transform: uppercase;
+      color: #818c98;
+      display: inline-block; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003113}}
+  #intro-section .main-bottom {
+    padding: 10px 0;
+    bottom: 0;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003122}}
+    #intro-section .main-bottom .main-button {
+      color: #fff;
+      font-weight: 700;
+      width: 100%;
+      font-family: "Montserrat", sans-serif;
+      display: block;
+      height: 3.438em;
+      width: 9.375em;
+      line-height: 3.438em;
+      text-align: center;
+      text-decoration: none;
+      background: #FF6200;
+      padding: 0;
+      margin: 0 auto;
+      border: 0;
+      font-size: 1.125em;
+      text-transform: uppercase;
+      border-radius: 5px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003135}}
+    #intro-section .main-bottom .arrow-down {
+      margin-top: 2%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003137}}
+      #intro-section .main-bottom .arrow-down i {
+        background-color: transparent;
+        margin: 0 auto;
+        transition: all 0.7s;
+        background-clip: padding-box; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003148}}
+.section {
+  text-align: center;
+  padding: 50px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003153}}
+  .section .code-box pre {
+    background-color: rgba(25, 33, 50, 0.92);
+    color: #818c98;
+    font-size: 1.15em;
+    font-family: "Varela Round", sans-serif;
+    border-radius: 0;
+    padding: 40px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003163}}
+  .section .item {
+    padding: 20px 0;
+    position: relative;
+    width: 100%;
+    height: 100%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003169}}
+    .section .item .item-row {
+      z-index: 5;
+      background-color: transparent;
+      color: #818c98 !important; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003175}}
+      .section .item .item-row .item-top p {
+        color: #818c98;
+        font-size: 18px;
+        margin-top: 20px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003180}}
+      .section .item .item-row .item-top i {
+        color: #3b475f;
+        background-color: #fff;
+        font-size: 2.60em;
+        display: block;
+        width: 120px;
+        height: 120px;
+        line-height: 120px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        background-clip: padding-box;
+        /* stops bg color from leaking outside the border: */
+        margin: 0 auto;
+        transition: all 0.7s; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003192}}
+        .section .item .item-row .item-top i:hover {
+          background-color: #3b475f;
+          color: #fff; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003200}}
+      .section .item .item-row .item-content ul {
+        padding: 10px 0; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003202}}
+        .section .item .item-row .item-content ul li {
+          padding: 5px 0; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003209}}
+    .section .item a {
+      text-decoration: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003215}}
+#overview-section {
+  text-align: center;
+  padding: 100px 0; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003219}}
+  #overview-section .item {
+    margin-top: 50px;
+    padding: 200px 0;
+    position: relative;
+    width: 100%;
+    height: 100%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003226}}
+    #overview-section .item .overlay {
+      background-color: rgba(25, 33, 50, 0.9);
+      position: absolute;
+      top: 0;
+      right: auto;
+      bottom: auto;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003234}}
+    #overview-section .item .item-row {
+      z-index: 5;
+      background-color: transparent;
+      color: #fff; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003238}}
+      #overview-section .item .item-row .item-title {
+        color: #fff; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003242}}
+      #overview-section .item .item-row .item-content p {
+        color: #818c98;
+        font-size: 18px;
+        margin-top: 20px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003250}}
+    #overview-section .item a {
+      text-decoration: none; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003258}}
+  #overview-section .first {
+    background: url("../img/bg-1.jpg") no-repeat fixed center bottom;
+    background-size: cover;
+    z-index: -2; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003263}}
+  #overview-section .second {
+    background: url("../img/main-bg3.jpg") no-repeat fixed center bottom;
+    background-size: cover;
+    z-index: -2; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/_base\.scss}line{font-family:\00003268}}
+  #overview-section .third {
+    background: url("../img/main-bg4.jpg") no-repeat fixed center bottom;
+    background-size: cover;
+    z-index: -2; }
+
+/* Custom, iPhone Retina */
+/* Extra Small Devices, Phones */
+@media only screen and (min-width: 480px) {
+  /* ============================== */
+  /*		  general section  	      */
+  /* ============================== */
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_480up\.scss}line{font-family:\000035}}
+  h1 {
+    font-size: 2.500em !important; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_480up\.scss}line{font-family:\000037}}
+  h2 {
+    font-size: 1.500em !important; }
+
+  /* ============================== */
+  /*		    main section  	      */
+  /* ============================== */
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_480up\.scss}line{font-family:\0000316}}
+  #main-section .main-intro {
+    min-height: 60px;
+    height: 60px;
+    width: 100%;
+    margin-top: 8%;
+    display: inline-block; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_480up\.scss}line{font-family:\0000323}}
+    #main-section .main-intro .medium-text {
+      font-size: 1.100em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_480up\.scss}line{font-family:\0000330}}
+  #partners .item {
+    width: 100%;
+    height: 160px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_480up\.scss}line{font-family:\0000334}}
+    #partners .item img {
+      width: auto !important; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_480up\.scss}line{font-family:\0000339}}
+  #partners hr {
+    display: none !important; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_480up\.scss}line{font-family:\0000343}}
+  #partners .first-row {
+    margin-top: 0; } }
+/* Small Devices, Tablets */
+@media only screen and (min-width: 768px) {
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_768up\.scss}line{font-family:\000031}}
+  h1 {
+    font-size: 4.175em !important; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_768up\.scss}line{font-family:\000035}}
+  h2 {
+    font-size: 1.750em !important; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_768up\.scss}line{font-family:\000039}}
+  #main-section .main-intro .medium-text {
+    font-size: 1.450em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_768up\.scss}line{font-family:\0000311}}
+  #faqs, #testimonials {
+    padding: 90px 0; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_768up\.scss}line{font-family:\0000317}}
+  #about-section .right-wrapper {
+    text-align: left;
+    padding-left: 15px; } }
+/* Medium Devices, Desktops */
+@media only screen and (min-width: 992px) {
+  /* ============================== */
+  /*		  general section  	      */
+  /* ============================== */
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_992up\.scss}line{font-family:\000035}}
+  h1 {
+    font-size: 4.375em !important; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_992up\.scss}line{font-family:\000037}}
+  h2 {
+    font-size: 1.875em !important; }
+
+  /* ============================== */
+  /*		    main section  	      */
+  /* ============================== */
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_992up\.scss}line{font-family:\0000316}}
+  #main-section .main-intro .medium-text {
+    font-size: 1.500em; }
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_992up\.scss}line{font-family:\0000322}}
+  #main-section .main-subscribe .main-button {
+    font-size: 1.275em; }
+
+  /* ============================== */
+  /*		    about section  	      */
+  /* ============================== */
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_992up\.scss}line{font-family:\0000334}}
+  #about-section .right-wrapper {
+    padding-left: 50px; }
+
+  /* ============================== */
+  /*		     faqs section         */
+  /* ============================== */
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_992up\.scss}line{font-family:\0000342}}
+  #faqs .panel-group {
+    width: 100%; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_992up\.scss}line{font-family:\0000345}}
+  #faqs .panel-heading .panel-title a {
+    font-size: 1.125em; } }
+/* Large Devices, Wide Screens */
+@media only screen and (min-width: 1200px) {
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_1200up\.scss}line{font-family:\000031}}
+  h1 {
+    font-size: 5.250em !important; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_1200up\.scss}line{font-family:\000035}}
+  h2 {
+    font-size: 2.000em !important; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_1200up\.scss}line{font-family:\000039}}
+  #main-section .main-subscribe .main-button {
+    font-family: "Montserrat", sans-serif;
+    display: block;
+    height: 3.125em;
+    width: 9.375em;
+    line-height: 3.125em;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.325em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_1200up\.scss}line{font-family:\0000315}}
+  #feature-detail h2 {
+    font-size: 2.000em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_1200up\.scss}line{font-family:\0000320}}
+  #faqs .panel-group {
+    width: 100%; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/E\:\/EasyPHP-DevServer-14\.1VC11\/data\/localweb\/Documee\/lib\/sass\/breakpoints\/_1200up\.scss}line{font-family:\0000323}}
+  #faqs .panel-heading .panel-title a {
+    font-size: 1.125em; } }
+
+/*# sourceMappingURL=style.css.map */

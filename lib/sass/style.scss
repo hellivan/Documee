@@ -1,0 +1,44 @@
+
+/******************************************************************************************
+/*  Import styles */
+/******************************************************************************************/
+@import '_variables';
+@import '_mixins';
+
+
+
+/*
+BASE (MOBILE) SIZE
+This are the mobile styles. It's what people see on their phones. If
+you set a great foundation, you won't need to add too many styles in
+the other stylesheets. Remember, keep it light: Speed is Important.
+*/
+
+// styles in base
+@import "_base";
+
+
+ /* Custom, iPhone Retina */
+@media only screen and (min-width : 320px) {
+    @import "breakpoints/_320up";
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width : 480px) {
+    @import "breakpoints/_480up";
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+    @import "breakpoints/_768up";
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+    @import "breakpoints/_992up";
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+    @import "breakpoints/_1200up";
+}

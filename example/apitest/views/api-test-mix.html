@@ -1,27 +1,64 @@
-<div class="container-fluid">
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
 
-    <div class="row">
-        <div class="col-md-offset-2 col-md-8">
+                <div class="code-box">
+                    <p>Vorschau welche Queries ausgeführt werden<p>
+                    <pre>Query kommt hier hin</pre>
+                </div>
 
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    Data from:
-                    <div class="btn-group">
-                        <button ng-repeat="provider in providers" type="button" class="btn btn-default" ng-model="useProvider[provider]" ng-disabled="!isAuthenticated(provider)" btn-checkbox>{{provider}} </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="item">
+                    <div class="item-row">
+
+                            <div ng-hide="auth.twitter.authenticated">
+                                <div class="item-top">
+                                    <a href="" ng-disabled="!isAuthenticated(provider)"><i class="fa fa-twitter"></i></a>
+                                    <p>Autorisieren</p>
+                                </div>
+                            </div>
+
                     </div>
                 </div>
-                <div class="panel-body">
+            </div>
+            <div class="col-md-6 col-sm-12">
+                    <div class="item">
+                        <div class="item-row">
 
-                    <ul>
-                        <li ng-repeat="state in progState.states">
-                            <a href="" ng-click="switchState(state)">{{state.description}}</a>
-                        </li>
-                    </ul>
-                    <div ng-repeat="state in progState.states">
-                        <div ng-if="progState.current==state.name" ng-include="state.template"></div>
+                            <div ng-hide="auth.fb.authenticated">
+                                <div class="item-top">
+                                    <a href="" ng-disabled="!isAuthenticated(provider)"><i class="fa fa-facebook"></i></a>
+                                    <p>Autorisieren</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="item">
+                        <div class="item-row">
+
+                            <div class="item-content">
+                                <ul>
+                                    <li ng-repeat="state in progState.states">
+                                        <a href="" ng-click="switchState(state)">{{state.description}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div ng-repeat="state in progState.states">
+                                <div ng-if="progState.current==state.name" ng-include="state.template"></div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>

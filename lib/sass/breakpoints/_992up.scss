@@ -1,0 +1,47 @@
+/* ============================== */
+/*		  general section  	      */
+/* ============================== */
+
+h1{font-size: 4.375em !important;}
+
+h2{font-size: 1.875em !important;}
+
+
+/* ============================== */
+/*		    main section  	      */
+/* ============================== */
+
+#main-section {
+  .main-intro {
+    .medium-text{
+      font-size: 1.500em;
+      }
+  }
+
+  .main-subscribe {
+      .main-button {
+          font-size: 1.275em;
+      }
+  }
+}
+
+
+/* ============================== */
+/*		    about section  	      */
+/* ============================== */
+
+#about-section{
+	.right-wrapper{
+		padding-left: 50px;
+	}
+}
+
+/* ============================== */
+/*		     faqs section         */
+/* ============================== */
+#faqs .panel-group{
+    width: 100%;
+}
+#faqs .panel-heading .panel-title a{
+    font-size: 1.125em;
+}
